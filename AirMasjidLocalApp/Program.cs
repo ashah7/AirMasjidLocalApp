@@ -12,13 +12,39 @@ namespace AirMasjidLocalApp
 {
     public class Program
     {
+        //public static void Main(string[] args)
+        //{
+        //    CreateWebHostBuilder(args).Build().Run();
+        //}
+
+        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        //    WebHost.CreateDefaultBuilder(args)
+        //        .UseStartup<Startup>();
+
+
+
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+
+            BuildWebHost(args).Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+
+        public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+             .ConfigureLogging((hostingContext, logging) =>
+             {
+                 logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                 logging.AddConsole();
+                 logging.AddDebug();
+                 logging.AddEventSourceLogger();
+             })
+                .UseUrls("http://0.0.0.0")
+
+
+                .Build();
     }
+
+    
 }

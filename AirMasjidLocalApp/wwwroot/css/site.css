@@ -1,56 +1,539 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
+/*html {
+height:100%;
+width:100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+
+  font-family: PapyrusRegular;
+ padding-top:0px;
+   margin-top: 0px;
+   height:100%;
+width:100%;
+}*/
+
+html, body {
+    font-family: PapyrusRegular;
+    height: 100%;
+    margin: 0;
+    padding: 2px;
+    overflow-y: hidden;
+    overflow-x: hidden
 }
-.footer {
-  position: absolute;
-  bottom: 0;
+
+
+/*.container-full {
+  margin: 0 auto;
   width: 100%;
-  white-space: nowrap;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  line-height: 60px; /* Vertically center the text there */
+}*/
+
+
+.container-full {
+    /*margin: 0 auto;*/
+    /*width: 100%;
+  height:100%;*/
+    font-family: 'Lucida Sans';
+    overflow-y: hidden;
+    overflow-x: hidden
+}
+
+/*#content, .container-fluid, .span9
+{
+    border: 1px solid #000;
+    overflow-y:auto;
+    overflow-x: hidden;
+    height:100%;
+    font-family: PapyrusRegular;
+    padding:10px
+}​*/
+
+
+
+
+
+/*no padding content table*/
+tr td {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.cssOptionsHeader {
+    color: white !important
+}
+
+.csschkboxesoptions {
+    color: white !important
+}
+
+
+
+/*.carousel-inner img { max-height : 100% !important;margin:auto }*/
+
+/*.carousel-inner .item img { height : 320px !important; margin : auto; }*/
+
+.carousel-inner img {
+    /*height: 280px*/;
+    /*max-height: 350px;*/
+    /*width: auto;
+   max-height: 35rem;*/
+    width: 100%;
+    height: 100%
+}
+
+
+
+/*#content, .container-fluid, .span9
+{
+    border: 1px solid #000;
+    overflow-y:auto;
+    overflow-x: hidden;
+    height:100%;
+    font-family: PapyrusRegular
+}​*/
+
+
+.table-condensed > thead > tr > th, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > tbody > tr > td, .table-condensed > tfoot > tr > td {
+    padding: 1px !important
+}
+
+
+
+.no-padding {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important
+}
+
+
+.prayerTimescss {
+    font-family: 'CopperplateGothicLightRegular';
+    color: white;
+    text-align: center;
+    text-shadow: -1px 0 gold, 0 1px gold, 1px 0 gold, 0 -1px gold
+}
+
+.prayerTimeTmrwcss {
+    font-family: 'CopperplateGothicLightRegular';
+    color: white;
+    width: 100%;
+    text-shadow: -1px 0 gold, 0 1px gold, 1px 0 gold, 0 -1px gold
+}
+
+.prayerTimeJamaat {
+    font-family: 'CopperplateGothicLightRegular';
+    color: whitesmoke;
+    background-color: transparent;
+    border-color: black;
+    border-style: none;
+    text-wrap: none;
+    text-align: center;
+    /*font-weight:bold;*/
+    width: 100%;
+    /*text-shadow: -1px 0 green, 0 1px green, 1px 0 green, 0 -1px green*/
+}
+
+
+.prayerTimeHeaderscss {
+    font-family: PapyrusRegular;
+    color: white;
+    text-shadow: -1px 0 red, 0 1px red, 1px 0 red, 0 -1px red;
+    white-space: nowrap
+}
+
+
+.prayerLabelscss {
+    font-family: PapyrusRegular;
+    color: white;
+    text-shadow: -1px 0 red, 0 1px red, 1px 0 red, 0 -1px red;
+    white-space: nowrap;
+    text-wrap: none;
+}
+
+.prayerlabeltodaytomorrowcss {
+    font-family: PapyrusRegular;
+    color: white;
+    text-wrap: none;
+    white-space: nowrap;
+}
+
+
+
+/*.cellInfoContainer {
+    position: absolute;
+    top: 25px;
+    right: 0px;
+    padding-right:1%;
+   
+    /*margin: 0 10px 0% 0px;
+    padding:1.4% 2% 2% 2% ;
+    width:47%;
+    text-align:center;
+
+    height:85%;
+ 
+
+}*/
+
+
+.dateHijri {
+    /*top:0px;
+           left:0;*/
+    padding: 5px;
+    font-family: "CopperplateGothicLightRegular";
+    font-size: 3em;
+    color: ghostwhite;
+    width: 100%;
+    text-align: center;
+    text-shadow: -1px 0 red, 0 2px red, 2px 0 red, 0 -2px red;
+    text-wrap: none
+}
+
+.cssDigitalClock {
+    background-color: blue;
+    font-family: "CopperplateGothicLightRegular";
+    /*font-size:1.5em;*/
+    width: 100%;
+    text-align: center;
+    text-shadow: -1px 0 red, 0 2px red, 2px 0 red, 0 -2px red;
+    text-wrap: none
+    /*white-space:nowrap*/
+}
+
+
+
+.dateGreg {
+    /*top:-15px;
+           left:0;*/
+    font-family: "CopperplateGothicLightRegular";
+    font-size: 100%;
+    color: white;
+    text-wrap: none;
+}
+
+
+
+.cellClock1 {
+    width: 100%;
+    /*height:auto;*/
+    text-align: center;
+    /*font-size:2.3em;*/
+    text-wrap: none;
+    z-index: 3
+}
+
+
+.cssStatistics {
+    color: white;
+    font-size: medium;
+    font-weight: normal;
+    text-align: center;
+    font-size: 1.5em
+}
+
+
+/*.myIframe {
+position: relative;
+padding-bottom: 55.25%;
+padding-top: 10px;
+height: 0;
+overflow: auto; 
+-webkit-overflow-scrolling:touch;
+border: solid black 1px;
+} 
+.myIframe iframe {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%
+}*/
+
+
+
+
+
+.table-condensed {
+    margin: auto;
+    width: 50% !important;
+}
+
+
+
+
+.divBasmala {
+    font-family: "Besmellah 2";
+    /*position:absolute;*/
+    color: gold;
+    /*width: 100%;*/
+    text-shadow: -1px 0 red, 0 1px red, 1px 0 red, 0 -1px red;
+    text-wrap: none;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin: 0px
+}
+
+
+
+
+.divDuroodSharif {
+    position: relative;
+    font-family: "ArabicTypesettingRegular";
+    color: ivory;
+    text-shadow: none;
+    text-align: left;
+    /*text-shadow: -1px 0 gold, 0 1px gold, 1px 0 gold, 0 -1px gold;*/
+}
+
+
+.cellPrayerInfoContainer {
+    display: table;
+    position: absolute;
+    top: 21%;
+    left: 0px;
+    padding: 20px;
+    height: auto;
+    width: 100%;
+}
+
+
+
+.cssPrayerTable {
+    width: 90%;
+    margin-left: 3%;
+    margin-right: 5%
+}
+
+
+.cellImages {
+    position: absolute;
+    /*top:240px;*/
+    top: 28%;
+    /*padding-right:2%;*/
+    width: 95%
+}
+
+
+
+
+.footer {
+    bottom: 8%;
+    height: 15px;
+    padding: 5px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000
+}
+
+
+
+
+
+.logo {
+    position: fixed;
+    bottom: -300px;
+    left: -300px;
+}
+
+
+.nivoSlider {
+    position: relative;
+    background: url("/Images/loading.gif") no-repeat 50% 50%;
+}
+
+    .nivoSlider img {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        margin-right: 30px;
+        display: none;
+        z-index: 2;
+        max-height: 500px;
+    }
+
+    .nivoSlider a {
+        border: 0;
+        display: block
+    }
+
+
+.cssRadioPlayer {
+    background-color: blue;
+    width: 400px;
+    height: 300px;
+    clear: both
+}
+
+
+.cssRadioStatus {
+    /*float:left;
+white-space:normal;
+font-size:x-large;
+font-stretch:expanded;
+font-weight:bolder;
+width:100%*/
+    font-weight: bold;
+    width: 100%;
+}
+
+.cssRadioDetails {
+    color: white;
+    text-align: center;
+    text-wrap: none;
+    white-space: nowrap;
+}
+
+
+.cssIceCastStats {
+    color: white;
+    font-size: 1.6em;
+    text-align: center;
+    text-wrap: none;
+    white-space: nowrap
+}
+
+
+
+.overlay {
+    position: fixed;
+    z-index: 98;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: #aaa;
+    filter: alpha(opacity=80);
+    opacity: 0.8;
+}
+
+.overlayContent {
+    z-index: 99;
+    margin: 250px auto;
+    width: 80px;
+    height: 80px;
+}
+
+    .overlayContent h2 {
+        font-size: 30px;
+        font-weight: bold;
+        color: #000;
+    }
+
+    .overlayContent img {
+        width: 80px;
+        height: 80px;
+    }
+
+
+
+
+
+/*using bootstraom h-75 instread of below*/
+/*@media screen and (max-height: 1920px) {
+    #twitter-widget-0 {
+        max-height: 80rem !important;
+    }
+}*/
+
+/*if screen is at 720p then reduce size of feed*/
+
+/*@media screen and (max-height: 800px) {
+
+    #twitter-widget-0 {
+        max-height: 55rem !important;
+    }
+}*/
+
+
+@media screen and (min-width: 1920px) {
+    .cssRadioDetails {
+        font-size: 1em;
+    }
+
+    .cssIceCastStats {
+        font-size: 1.4em;
+    }
+
+    .prayerTimescss {
+        font-size: 1.6em;
+    }
+
+    .prayerTimeTmrwcss {
+        font-size: 1em;
+    }
+
+    .prayerTimeJamaat {
+        font-size: 1.6em;
+    }
+
+
+    .prayerTimeHeaderscss {
+        font-size: 1.1em;
+    }
+
+    .prayerLabelscss {
+        font-size: 1em;
+    }
+
+    .prayerlabeltodaytomorrowcss {
+        font-size: 1em;
+    }
+}
+
+
+
+@media screen and (max-height: 1079px) {
+    .cssRadioDetails {
+        font-size: 1.2em;
+    }
+
+    .cssIceCastStats {
+        font-size: 1.2em;
+    }
+
+    .prayerTimescss {
+        font-size: 1.4em;
+    }
+
+    .prayerTimeTmrwcss {
+        font-size: 0.8em;
+    }
+
+    .prayerTimeJamaat {
+        font-size: 1.4em;
+    }
+
+
+    .prayerTimeHeaderscss {
+        font-size: 0.9em;
+    }
+
+    .prayerLabelscss {
+        font-size: 0.8em;
+    }
+
+    .prayerlabeltodaytomorrowcss {
+        font-size: 0.8em;
+    }
+}
+
+
+.heartbeat {
+    position: absolute;
+    display: none;
+    margin: 5px;
+    color: red;
+    right: 0;
+    top: 0;
+    font-size: 5em
+}
+
+.heartfail {
+    position: absolute;
+    display: none;
+    margin: 5px;
+    color: red;
+    right: 0;
+    top: 0;
+    font-size: 5em
 }

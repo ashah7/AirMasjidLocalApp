@@ -1,10 +1,583 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "AirMasjid";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<asp:HiddenField ID="width" runat="server" />
+<asp:HiddenField ID="height" runat="server" />
+
+<div class="container-fluid">
+
+    <div class="row ">
+
+
+
+        <div class="col-md-3 ">
+
+            <div class="col-md-12" style="text-align: center">
+                <div class="row justify-content-center align-items-center">
+
+                    <span id="spanRadioInfo" style="color: white">AirMasjid</span>
+
+
+                    <%--<asp:Label ID="lblExternalIP" runat="server" CssClass="cssRadioDetails" Visible="false" Text="External IP" Width="100%"></asp:Label>--%>
+                    <asp:HiddenField ID="hidExternalIP" ClientIDMode="Static" Visible="true" runat="server" />
+
+                    <div id="divRadioinfo">
+                        <asp:Label ID="lblInternalIP" runat="server" CssClass="cssRadioDetails" Text="Internal IP" Width="100%"></asp:Label>
+
+                        <%--  <asp:Label ID="lblowner" runat="server" CssClass="cssRadioDetails" Text="Owner Info" Width="100%"></asp:Label>
+
+                        <asp:Label ID="lbladdress" runat="server" CssClass="cssRadioDetails" Text="Address Info" Width="100%"></asp:Label>--%>
+
+
+                        <asp:Label ID="lblWidth" runat="server" CssClass="cssRadioDetails hidden-xs" Text="Label"></asp:Label>
+
+                        <asp:Label ID="lblHeight" runat="server" CssClass="cssRadioDetails hidden-xs" Text="Label"></asp:Label>
+
+                        <asp:Label ID="lblrelease" runat="server" CssClass="cssRadioDetails" Text="Label"></asp:Label>
+
+                        <asp:Label ID="lblwebserverName" runat="server" CssClass="cssRadioDetails" Text="Label"></asp:Label>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+            <%-- <div class="col-md-12">
+                --%>
+                <div class="row p-2">
+                    <br />
+                    <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server">
+                        <asp:Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="TimerPrayer" EventName="Tick"></asp:AsyncPostBackTrigger>
+
+                        </asp:Triggers>
+
+                        <ContentTemplate>
+
+
+                            <table id="tblPrayerTimes" class="table-condensed table-borderless">
+                                <tr>
+                                    <th colspan="3">
+
+                                        <asp:Label ID="LblPrayer" runat="server" CssClass="prayerTimeHeaderscss" Text="Prayer Time"></asp:Label>
+                                    </th>
+                                    <th colspan="1">
+                                        <asp:Label ID="lblJammat" runat="server" CssClass="prayerTimeHeaderscss" Text="Jamaat Time"></asp:Label>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td></td>
+
+                                    <th>
+                                        <asp:Label ID="lblToday" runat="server" CssClass="prayerlabeltodaytomorrowcss" Text="Today"></asp:Label>
+                                    </th>
+
+                                    <th>
+                                        <asp:Label ID="lblTomorrow" runat="server" CssClass="prayerlabeltodaytomorrowcss" Text="Tomorrow"></asp:Label>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <asp:Label ID="lblFajr" runat="server" CssClass="prayerLabelscss" Text="Fajr"></asp:Label>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <asp:Label ID="lblbegFajrTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <asp:Label ID="lbltmrwFajrTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>
+                                    </td>
+                                    <td id="tdfajrJamaatbox" style="text-align: center">
+                                        <asp:TextBox ID="txtFajrJamaat" runat="server" Text="00:00" onmousedown="displayPicker('Fajr','tdfajrJamaatbox');" MaxLength="5" CssClass="prayerTimeJamaat"></asp:TextBox>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <asp:Label ID="lblSunrise" runat="server" CssClass="prayerLabelscss" Text="Sunrise"></asp:Label>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <asp:Label ID="lblbegSunRiseTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <asp:Label ID="lbltmrwSunriseTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <asp:Label ID="lblDkubra" runat="server" CssClass="prayerLabelscss" Text="Dahawa Kubra"></asp:Label>
+                                    </td>
+                                    <td>
+                                        <asp:Label ID="lblDkubraTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>
+                                    </td>
+                                    <td style="text-align: center"></td>
+                                    <td id="td1" style="text-align: center"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <asp:Label ID="lblDhuhr" runat="server" CssClass="prayerLabelscss" Text="Dhuhr"></asp:Label>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <asp:Label ID="lblbegDhuhrTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>
+                                    </td>
+
+
+                                    <td style="text-align: center">
+                                        <asp:Label ID="lbltmrwDhuhrTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>
+                                    </td>
+                                    <td id="tddhuhrJamaatbox" style="text-align: center">
+                                        <asp:TextBox ID="txtDhuhrJamaat" runat="server" CssClass="prayerTimeJamaat" Text="00:00" onmousedown="displayPicker('Dhuhr','tddhuhrJamaatbox');" MaxLength="5"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <asp:Label ID="lblAsr" runat="server" CssClass="prayerLabelscss" Text="Asr"></asp:Label>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <asp:Label ID="lblbegAsrTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <asp:Label ID="lbltmrwAsrTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>
+                                    </td>
+                                    <td id="tdasrJamaatbox" style="text-align: center">
+                                        <asp:TextBox ID="txtAsrJamaat" runat="server" CssClass="prayerTimeJamaat" Text="00:00" onmousedown="displayPicker('Asr','tdasrJamaatbox');" MaxLength="5"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <asp:Label ID="lblMaghrib" runat="server" CssClass="prayerLabelscss" Text="Maghrib"></asp:Label>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <asp:Label ID="lblbegMaghribTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <asp:Label ID="lbltmrwMaghrib" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>
+                                    </td>
+                                    <td id="tdmaghribJamaatbox" style="text-align: center">
+                                        <asp:TextBox ID="txtMaghribJamaat" runat="server" CssClass="prayerTimeJamaat" Text="00:00" onmousedown="displayPicker('Maghrib','tdmaghribJamaatbox');" MaxLength="5"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <asp:Label ID="lblIsha" runat="server" CssClass="prayerLabelscss" Text="Isha"></asp:Label>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <asp:Label ID="lblbegIshaTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <asp:Label ID="lbltmrwIshaTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>
+                                    </td>
+                                    <td id="tdishaJamaatbox" style="text-align: center">
+                                        <asp:TextBox ID="txtIshaJamaat" runat="server" CssClass="prayerTimeJamaat" Text="00:00" onmousedown="displayPicker('Isha','tdishaJamaatbox');" MaxLength="5"></asp:TextBox>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <asp:Label ID="lblJamaat" runat="server" CssClass="prayerLabelscss" Text="Jummah 1"></asp:Label>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td id="tdjummah1Jamaatbox" style="text-align: center">
+                                        <asp:TextBox ID="txtJummah1Jamaat" runat="server" CssClass="prayerTimeJamaat" Text="13:30" onmousedown="displayPicker('Jummah1','tdjummah1Jamaatbox');" MaxLength="5"></asp:TextBox>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <asp:Label ID="lblJummah2" runat="server" CssClass="prayerLabelscss" Text="Jummah 2"></asp:Label>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td id="tdjummah2Jamaatbox" style="text-align: center">
+                                        <asp:TextBox ID="txtJummah2Jamaat" runat="server" CssClass="prayerTimeJamaat" Text="13:30" onmousedown="displayPicker('Jummah2','tdjummah2Jamaatbox');" MaxLength="5"></asp:TextBox>
+                                    </td>
+
+                                </tr>
+
+                                <%--
+                                <tr>
+                                    <td colspan="4"></td>
+                                </tr>--%>
+                            </table>
+                            <%--postback every 2mins 120000--%>
+                            <asp:Timer ID="TimerPrayer" runat="server" OnTick="TimerPrayer_Tick" Interval="120000"></asp:Timer>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+
+
+
+                    <asp:Button ID="btnRadioStatus" ClientIDMode="Static" OnClick="btnRadioStatus_Click" runat="server" Enabled="false" CssClass="cssRadioStatus"
+                                Text="Button" />
+
+
+                </div>
+                <%--
+            </div>--%>
+
+
+
+
+            <div class="row justify-content-center align-items-center p-2">
+
+                <%--  <div class="col-md-12" style="text-align:center">
+                    <span id="spanChannels" style="color:white">Channels</span><br />
+
+                    <asp:Button ID="btnCamOutside" Visible="false" Enabled="false" runat="server" Width="100%" CssClass="btn-sm btn-block" OnClientClick="updateUserCamPreference('1');" Text="Outside Hall View" /><br />
+                    <asp:Button ID="btnCamHall" Visible="false" Enabled="false" runat="server" Width="100%" CssClass="btn-sm btn-block" OnClientClick="updateUserCamPreference('2');" Text="Main Hall View" />
+
+
+
+                </div>--%>
+
+
+
+
+                <%-- <div class="col-md-12">
+                    --%>
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th colspan="3" style="text-align: center">
+                                <asp:Label ID="idlblOptions" runat="server" CssClass="h5 cssOptionsHeader" Text="Select AirMasjid Options"></asp:Label>
+
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <asp:Label ID="lblchkAutoScreenStatus" runat="server" CssClass="h5 csschkboxesoptions" Text="Enable Auto Screen"></asp:Label>
+                            </td>
+                            <td style="text-align: center" colspan="2">
+
+                                <asp:CheckBox ID="chkAutoScreenStatus" ClientIDMode="Static" onclick="updateAutoScreen();" runat="server" TextAlign="Left" />
+                                <%-- <input id="chkAutoScreenStatus" name="checkAutoScreen" type="checkbox" />--%>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <asp:Label ID="lblViewMode" runat="server" CssClass="h5 csschkboxesoptions" Text="ViewMode"></asp:Label>
+                            </td>
+                            <td style="text-align: center" colspan="2">
+                                <asp:Label ID="lblViewModeText" ClientIDMode="Static" runat="server" CssClass="h5 csschkboxesoptions" Text=""></asp:Label>
+
+                                <%-- <input id="chkAutoScreenStatus" name="checkAutoScreen" type="checkbox" />--%>
+
+                            </td>
+                        </tr>
+
+
+
+                        <tr>
+                            <td>
+                                <asp:Label ID="lblSpeakerSourceTV" Visible="false" runat="server" CssClass="h5 csschkboxesoptions" Text="Audio to TV"></asp:Label>
+                            </td>
+                            <td style="text-align: center" colspan="2">
+                                <asp:CheckBox ID="chkSpeakerOutputTV" Visible="false" ClientIDMode="Static" onclick="changeAudiotoTV();" runat="server" TextAlign="Left" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <asp:Label ID="lblSpeakerSourceJack" Visible="false" runat="server" CssClass="h5 csschkboxesoptions" Text="Audio to Speaker"></asp:Label>
+                            </td>
+                            <td style="text-align: center" colspan="2">
+                                <asp:CheckBox ID="chkSpeakerOutputJack" Visible="false" ClientIDMode="Static" onclick="changeAudiotoJack();" runat="server" TextAlign="Left" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <asp:Label ID="lblTahajjudAzan" Visible="false" runat="server" CssClass="h5 csschkboxesoptions" Text="Tahajjud Azan (30 before Fajr)"></asp:Label>
+                            </td>
+                            <td style="text-align: center" colspan="2">
+                                <asp:CheckBox ID="chkTahajjudAzan" Visible="false" ClientIDMode="Static" onclick="changeTahajjudAzan();" runat="server" TextAlign="Left" />
+                            </td>
+                        </tr>
+
+
+
+                        <tr>
+                            <td>
+                                <asp:Label ID="lblBlueSpeaker" Visible="false" runat="server" CssClass="h5 csschkboxesoptions" Text="Bluetooth Speaker Name"></asp:Label>
+                            </td>
+                            <td style="text-align: center" colspan="2">
+
+                                <asp:Label ID="lblBlueSpeakerName" Visible="false" ClientIDMode="Static" CssClass="h5 csschkboxesoptions" runat="server" Text=""></asp:Label>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <%--
+                            <td>
+                                <asp:Label ID="lblEventTime" CssClass="h5 csschkboxesoptions" runat="server" Text="Next Event"></asp:Label>
+                            </td>--%>
+                            <td style="text-align: center">
+                                <asp:Label ID="lblEventDesc" CssClass="h5 csschkboxesoptions" ClientIDMode="Static" runat="server" Text=""></asp:Label>
+
+
+                            </td>
+                            <td style="text-align: center">
+                                <asp:Label ID="lblEventStart" CssClass="h5 csschkboxesoptions" ClientIDMode="Static" runat="server" Text=""></asp:Label>
+
+
+                            </td>
+
+
+                        </tr>
+
+
+
+
+                    </table>
+
+
+                    <audio id="masjidstream" controls="controls">
+                        <source id="audioSource" src=""></>
+                        Your browser does not support the audio element.
+
+                    </audio>
+
+
+
+                    <asp:GridView ID="gvEvents" CssClass="table table-responsive csschkboxesoptions text-center" runat="server" AutoGenerateColumns="false">
+                        <Columns>
+
+
+                            <asp:BoundField HeaderText="Event Name" HeaderStyle-CssClass="text-center" DataField="eventDescription" />
+
+                            <asp:BoundField HeaderText="Start Time" HeaderStyle-CssClass="text-center" DataField="timeStart" />
+
+                            <asp:BoundField HeaderText="Duration (mins)" HeaderStyle-CssClass="text-center" DataField="eventDuration" />
+
+
+
+                        </Columns>
+
+                    </asp:GridView>
+
+
+                    <%--
+                </div>--%>
+
+
+
+
+                <%--change made to to run postback same time as images (avoid unncessary server calls)--%>
+
+                <div class="col-md-12" style="text-align: center">
+                    <div class="col-md-12" style="text-align: center">
+
+
+                        <br />
+
+                        <asp:Label ID="lblaudiostatus" runat="server" ClientIDMode="Static" CssClass="cssIceCastStats" Text="Audio Stream Status: Offline"></asp:Label><br />
+                        <asp:Label ID="lblvideostatus" runat="server" ClientIDMode="Static" CssClass="cssIceCastStats" Text="Video Stream Status: Offline"></asp:Label><br />
+                        <asp:Label ID="lblusercount" runat="server" ClientIDMode="Static" CssClass="cssIceCastStats" Text="Live Users: Offline"></asp:Label><br />
+
+
+                        <asp:Label ID="lblServerName" Visible="false" runat="server" CssClass="cssIceCastStats" Text="Server Name"></asp:Label><br />
+
+                        <asp:Label ID="lblListeners" Visible="false" runat="server" CssClass="cssIceCastStats" Text="Current Listeners: "></asp:Label><asp:Label ID="lblListenersresult" Visible="false" runat="server" CssClass="cssIceCastStats" Text="Label"></asp:Label><br />
+                        <asp:Label ID="lblMaxListeners" Visible="false" runat="server" CssClass="cssIceCastStats" Text="Maximum Listeners: "></asp:Label><asp:Label ID="lblMaxListenersresult" Visible="false" runat="server" CssClass="cssIceCastStats" Text="Label"></asp:Label><br />
+                        <asp:Label ID="lblSourceStatus" Visible="false" runat="server" CssClass="cssIceCastStats" Text="Source Status: "></asp:Label><asp:Label ID="lblSourceStatusresult" Visible="false" runat="server" CssClass="cssIceCastStats" Text="Label"></asp:Label>
+
+
+                        <%--the below values are used to gather the values from postback
+                        the camera URL and the current label for the div the update panel here controls all the partial updates every 30s--%>
+                        <asp:HiddenField ID="hidCurrLiveScreenLabel" ClientIDMode="Static" runat="server" />
+
+                        <asp:HiddenField ID="hidCamUrl" ClientIDMode="Static" runat="server" />
+
+
+                        <asp:HiddenField ID="hidCamShortUrl" ClientIDMode="Static" runat="server" />
+
+                        <asp:HiddenField ID="hidAudioUrl" ClientIDMode="Static" runat="server" />
+
+                        <asp:HiddenField ID="hidViewMode" ClientIDMode="Static" runat="server" />
+
+                        <asp:HiddenField ID="hidAutoScreen" ClientIDMode="Static" runat="server" />
+
+                        <asp:HiddenField ID="hidMicStatus" ClientIDMode="Static" runat="server" />
+
+                        <asp:HiddenField ID="hidTahajjudAzan" ClientIDMode="Static" runat="server" />
+
+
+
+
+
+
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <%--time control outside update panel seems to be working okay will refresh camera every 4 mins 240000--%>
+
+        <%-- remove camera refresh 19 June 2018--%>
+        <%--  <asp:Timer ID="TimerCamera" Interval="240000" OnTick="TimerCamera_Tick" runat="server"></asp:Timer>--%>
+
+
+        <div class="col-md-6" style="text-align: center">
+
+            <div class="row justify-content-center align-items-center p2">
+                <span id="spanBasmala" class="divBasmala">&amp;#32</span>
+            </div>
+
+            <div class="row justify-content-center align-items-center h-75">
+                <%-- <div class="col-md-12">
+                    --%>
+
+                    <asp:UpdatePanel ID="updtPanelEvents" UpdateMode="Conditional" runat="server">
+                        <ContentTemplate>
+                            <div id="divEvents" class="embed-responsive embed-responsive embed-responsive-16by9">
+                                <iframe id="iframeEvents" clientidmode="static" runat="server" class="embed-responsive-item text-center" allowfullscreen="true" webkitallowfullscreen="true" style="border: none" scrolling="No"></iframe>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+
+
+
+
+                    <asp:Label ID="lblcamerastream" runat="server" Text="Label"></asp:Label>
+
+                    <asp:UpdatePanel ID="updtPanelCamera" ClientIDMode="Static" UpdateMode="Conditional" runat="server">
+                        <Triggers>
+
+                        </Triggers>
+
+                        <ContentTemplate>
+
+
+
+
+                            <div id="divCamera" class="embed-responsive embed-responsive-16by9 text-center">
+                                <iframe id="iframeCamera" clientidmode="static" runat="server" class="embed-responsive-item text-center"
+                                        allowfullscreen="true" webkitallowfullscreen="true" style="border: none" scrolling="No"></iframe>
+                            </div>
+
+
+
+
+                        </ContentTemplate>
+
+
+                    </asp:UpdatePanel>
+
+
+
+                    <div id="divHadiths" class="">
+                        <div id="caraHadiths" class="carousel slide" data-ride="carousel">
+                            <!-- Indicators -->
+
+                            <ol class="carousel-indicators"></ol>
+
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner">
+                            </div>
+                            <a class="left carousel-control" href="#caraHadiths" data-slide="prev">
+                                <%-- <span class="glyphicon glyphicon-chevron-left"></span>--%>
+                            </a>
+                            <a class="right carousel-control" href="#caraHadiths" data-slide="next">
+                                <%--  <span class="glyphicon glyphicon-chevron-right"></span>--%>
+                            </a>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <%--
+                </div>--%>
+
+                <div class="row">
+                    <div class="col-md-12" style="text-align: center">
+
+
+                        <br />
+
+                        <%--  <span style="color: white; font-size: 2em; text-align: center"><%=ViewState["CameraDesc"].ToString() %></span>--%>
+
+                        <asp:Label ID="lblCameraViewDesc" ClientIDMode="Static" style="color: white; font-size: 2em; text-align: center" runat="server" Text="Label"></asp:Label>
+
+                        <br />
+                        <span id="streamDescMain" style="color: white; font-size: 2em; text-align: center"><%=ViewState["streamDescription"] %></span>
+                        <br />
+
+
+
+                        <%--  <br />
+                        <span id="videostatus" style="color: white; font-size: 2em; text-align: center"></span>
+                        <br />--%>
+
+
+
+
+
+                    </div>
+
+                </div>
+
+
+                <%--here--%>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-3">
+
+            <div class="row">
+                <div id="divDigitalClock" class="cssDigitalClock">
+
+                    <%-- <asp:Label ID="lbldate" runat="server" Text="gregDate" CssClass="dateGreg"></asp:Label>--%>
+                </div>
+            </div>
+
+            <div class="row justify-content-center h-75">
+
+                <%-- <div class="col-md-12">
+                    --%>
+
+                    <a class="twitter-timeline" id="twitter" data-lang="en" data-height="auto" data-theme="dark" data-link-color="#19CF86" href="<%=TweetID %>" ; data-chrome="noheader, nofooter, noborders, noscrollbar,transparent">Tweets by AylesburyMasjid</a>
+                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+                    <%--
+                </div>--%>
+
+
+
+
+
+
+            </div>
+
+
+
+        </div>
+
+        <div class="heartbeat">&hearts;</div>
+        <div class="heartfail">&#10005;</div>
+
+    </div>
+
+
 </div>
+
