@@ -42,8 +42,11 @@ $(document).ready(function () {
         , sizeUnit: "px"
     }
     );
-
-
+    
+                
+        setTimeout(GetUserPreferences(), 20000);
+         
+    
 }
 );
 
@@ -110,6 +113,52 @@ function htmlImages() {
 }
 
 
+function GetUserPreferences() {
+
+
+    alert("called");
+
+    $.ajax({
+        type: "POST",
+        url: "/Index?handler=getuserpreferences",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        //data: '{ViewMode:"' + ViewMode + '", serial: "' + serial + '" }',
+       // data: JSON.stringify("1"),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+
+          
+
+           // alert(data);
+
+            var obj = JSON.parse(data);
+            alert(obj);
+            alert(obj.viewmode);
+            alert(obj.audiourl);
+
+          //  document.getElementById("demo").innerHTML = obj.name + ", " + obj.age;
+
+          
+
+        },
+        failure: function (response) {
+
+            alert(response.d);
+
+            alert("setting autoscreen failed try again!");
+        }
+    }
+    );
+
+
+}
+
+
+
 
 
 function gmod(n, m) {
@@ -127,7 +176,46 @@ function kuwaiticalendar(adjust) {
     month = today.getMonth();
     year = today.getFullYear();
     m = month + 1;
-    y = year;
+    y = year; var AutoScreen = null;
+
+    if ($("#chkAutoScreenStatus").is(':checked'))
+        AutoScreen = "1";
+    else
+        AutoScreen = "0";
+
+    $.ajax({
+        type: "POST",
+        url: "/settings?handler=updateautoscreen",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        //data: '{ViewMode:"' + ViewMode + '", serial: "' + serial + '" }',
+        data: JSON.stringify(AutoScreen),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+
+            if (data === "success") {
+
+                alertsuccess("AutoScreen changed!");
+
+            }
+            else {
+
+                alertfailed("failed try again!");
+
+                return false;
+            }
+
+        },
+        failure: function (response) {
+
+
+            alertfailed("setting autoscreen failed try again!");
+        }
+    }
+    );
     if (m < 3) {
         y -= 1;
         m += 12;
