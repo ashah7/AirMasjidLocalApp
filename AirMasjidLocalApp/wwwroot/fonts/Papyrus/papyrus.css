@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'PapyrusRegular';
+    src: url('papyrus.eot');
+    src: url('papyrus.eot') format('embedded-opentype'),
+         url('papyrus.woff') format('woff'),
+         url('papyrus.ttf') format('truetype'),
+         url('papyrus.svg#PapyrusRegular') format('svg');
+}

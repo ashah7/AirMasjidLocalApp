@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'CopperplateGothicLightRegular';
+    src: url('coprgtl.eot');
+    src: url('coprgtl.eot') format('embedded-opentype'),
+         url('coprgtl.woff') format('woff'),
+         url('coprgtl.ttf') format('truetype'),
+         url('coprgtl.svg#CopperplateGothicLightRegular') format('svg');
+}

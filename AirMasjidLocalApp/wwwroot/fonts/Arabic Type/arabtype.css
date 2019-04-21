@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'ArabicTypesettingRegular';
+    src: url('arabtype.eot');
+    src: url('arabtype.eot') format('embedded-opentype'),
+         url('arabtype.woff') format('woff'),
+         url('arabtype.ttf') format('truetype'),
+         url('arabtype.svg#ArabicTypesettingRegular') format('svg');
+}

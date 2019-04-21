@@ -1,0 +1,31 @@
+/* SAMPLE CSS STYLES FOR JQUERY CLOCK PLUGIN */
+  .jqclock { float:left;
+              text-align:center; 
+              background: transparent; 
+              padding: 10px; 
+              margin:20px; 
+
+  }
+  .clockdate { 
+      font-family:Papyrus;  
+      color: gold; 
+               margin-bottom: 10px; 
+               font-size: 100%; 
+               font-weight:bold;
+               display: block;
+               /*text-shadow: -1px 0 red, 0 1px red, 1px 0 red, 0 -1px red*/
+
+  }
+  .clocktime { /*border: 2px inset gold;*/
+                /*background: Black;*/ 
+                background-color:transparent;
+                padding: 5px; 
+                /*font-size:75px;*/
+               font-family: "Courier";
+               font-weight:bold;
+                color: ButtonHighlight; 
+                text-shadow: -1px 0 red, 0 1px red, 2px 0 red, 0 -2px red;
+                margin: 2px; 
+                display: block; 
+
+  }
