@@ -47,34 +47,15 @@ namespace AirMasjidLocalApp.Pages
             int? establishid=null;
             int? events=null;
             int? viewmode=null;
-            var estdescription = "";
+            var establishname = "";
             var tweetid = "";
             var audiourl = "";
+            var videocdn = "";
             var videourl = "";
+            int? micstatus = null;
 
 
-
-
-
-
-            {
-                MemoryStream stream = new MemoryStream();
-                Request.Body.CopyTo(stream);
-                stream.Position = 0;
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    string requestBody = reader.ReadToEnd();
-                    if (requestBody.Length > 0)
-                    {
-                        var obj = JsonConvert.DeserializeObject(requestBody);
-                        if (obj != null)
-                        {
-                            //viewmode = obj.ToString();
-
-                        }
-                    }
-                }
-            }
+            
 
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -112,11 +93,13 @@ namespace AirMasjidLocalApp.Pages
                             establishid = myReader.GetInt16(2);
                             events = myReader.GetInt16(3);
                             viewmode = myReader.GetInt16(4);
-                            estdescription = myReader.GetString(5);
+                            establishname = myReader.GetString(5);
                             tweetid = myReader.GetString(6);
                             audiourl = myReader.GetString(7);
-                            videourl = myReader.GetString(8);
-                            
+                            videocdn = myReader.GetString(8);
+                            videourl = myReader.GetString(9);
+                            micstatus = myReader.GetInt16(10);
+
                             //  establishid = myReader.GetString(2);
 
 
@@ -132,11 +115,13 @@ namespace AirMasjidLocalApp.Pages
                             ",\"tahajjud\":" + "\"" + tahajjud + "\"" + 
                             ",\"establishid\":" + establishid + 
                             ",\"events\":" + events + 
-                            ",\"viewmode\":" + viewmode + 
-                            ",\"estdescription\":" + "\"" + estdescription + "\"" +
+                            ",\"viewmode\":" + viewmode +
+                            ",\"establishname\":" + "\"" + establishname + "\"" +
                             ",\"tweetid\":" + "\"" + tweetid + "\"" +
                             ",\"audiourl\":" + "\"" + audiourl + "\"" +
+                            ",\"videocdn\":" + "\"" + videocdn + "\"" +
                             ",\"videourl\":" + "\"" + videourl + "\"" +
+                            ",\"micstatus\":" + micstatus +
                             "}", "application/json");
 
                         //  return Content("{ \"name\":\"John\", \"age\":31, \"city\":\"New York\" }", "application/json");
@@ -157,6 +142,56 @@ namespace AirMasjidLocalApp.Pages
             }
 
         }
-    }
+
+
+        public ContentResult OnPostCheckAudioAsync()
+        {
+            var audiourl = "";
+
+            {
+                MemoryStream stream = new MemoryStream();
+                Request.Body.CopyTo(stream);
+                stream.Position = 0;
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string requestBody = reader.ReadToEnd();
+                    if (requestBody.Length > 0)
+                    {
+                        var obj = JsonConvert.DeserializeObject(requestBody);
+                        if (obj != null)
+                        {
+                            audiourl = obj.ToString();
+
+                        }
+                    }
+                }
+            }
+
+
+
+
+            string cmdcheckaudio = "[[ `omxplayer -i "+audiourl+ " 2>&1 | grep Stream` ]] && echo 'running'";
+
+
+            string audiourlstatus=cmdcheckaudio.Bash().Split(';').First();
+
+            if (audiourlstatus == "running")
+            {
+
+
+                return Content("true");
+            }
+            else
+            {
+                return Content("false");
+            }
+
+
+
+            
+
+        }
+
+        }
 }
         

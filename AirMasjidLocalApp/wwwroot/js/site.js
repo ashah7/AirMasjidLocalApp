@@ -20,8 +20,7 @@ $(document).ready(function () {
     }
     );
 
-    $.getScript("//platform.twitter.com/widgets.js");
-
+  
 
     $(window).fontResizer({
         elements: [
@@ -115,8 +114,7 @@ function htmlImages() {
 
 function GetUserPreferences() {
 
-
-    alert("called");
+    
 
     $.ajax({
         type: "POST",
@@ -139,23 +137,208 @@ function GetUserPreferences() {
             alert(obj);
             alert(obj.viewmode);
             alert(obj.audiourl);
-
-          //  document.getElementById("demo").innerHTML = obj.name + ", " + obj.age;
+            alert(obj.micstatus);
+          
 
           
 
+            document.querySelector("#twitter").setAttribute("href", obj.tweetid);
+
+            $.getScript("//platform.twitter.com/widgets.js");
+
+
+            SetMic(obj.micstatus, obj.establishname);
+
+            SetUserOptions(obj.autoscreen, obj.tahajjud, obj.events, obj.establishid, obj.viewmode, obj.establishname);
+
+            SetDashboardState(obj.micstatus, obj.establishname, obj.audiourl, obj.videourl);
+            
         },
         failure: function (response) {
 
-            alert(response.d);
+            alertfailed("failed to get user preferences");
 
-            alert("setting autoscreen failed try again!");
+
+
         }
     }
     );
 
 
 }
+
+function SetMic(micstatus, establishname) {
+
+    
+
+    if (micstatus == "0") {
+
+       
+        console.log("mic is off and camera is " + establishname);
+        $("#btnRadioStatus").prop('value', 'offline');
+        $("#btnRadioStatus").css('background', 'gray');
+        $("#btnRadioStatus").css('color', 'white');
+        $("#btnRadioStatus").prop('disabled', true);
+    }
+    else if (micstatus == "1") {
+        console.log("mic is on and camera is " + establishname);
+
+        $("#btnRadioStatus").prop('value', 'Live BroadCasting');
+        $("#btnRadioStatus").css('background', 'red');
+        $("#btnRadioStatus").css('color', 'white');
+        $("#btnRadioStatus").prop('disabled', false);
+
+
+    }
+
+
+
+
+}
+
+
+
+
+
+function SetUserOptions(autoscreen, tahajjud, events, establishid, viewmode, establishname) {
+
+    
+
+
+    //var autoScreen = userOptionsfields[0];
+    //var establishID = userOptionsfields[1];
+    //var viewMode = userOptionsfields[2];
+    //var events = userOptionsfields[3];
+    //var establishName = userOptionsfields[4];
+    //var tahajjudazan = userOptionsfields[5];
+
+    console.log("user establish name:" + establishname);
+    console.log("user tahajjud azan value:" + tahajjud);
+
+    //set hiddenfields to be used by broadcast
+
+    $("#hidViewMode").text(viewmode);
+    $("#hidAutoScreen").text(autoscreen);
+    $("#hidTahajjudAzan").text(tahajjud);
+
+    $("#streamDescMain").text(establishname);
+
+
+
+    if (autoscreen == "0") {
+
+        console.log("viewmode " + autoscreen);
+        $("#lblViewModeText").text("Audio Only");
+        //          var videostatus = $("#streamDescMain").text();
+
+    }
+    else if (autoscreen == "1") {
+        console.log("viewmode: " + viewmode);
+        $("#lblViewModeText").text("View & Audio");
+
+    }
+
+    if (autoscreen == "0") {
+        console.log("autoscreen: " + autoscreen);
+        $('#chkAutoScreenStatus').prop('checked', false);
+
+    }
+    else if (autoscreen == "1") {
+        console.log("autoscreen: " + autoscreen);
+        $('#chkAutoScreenStatus').prop('checked', true);
+
+    }
+
+
+
+
+}
+
+
+function SetDashboardState(micstatus, establishname, audiourl, videourl) {
+
+
+
+    //need to check if tahajjudzan has begun
+    //check if audio is live
+    //check if video is live
+
+    
+    viewMode = $("#hidViewMode").text();
+    var autoScreen = $("#hidAutoScreen").text();
+
+
+
+    console.log("ViewMode from hiddenfield: " + viewMode);
+
+    //var micstatus = estbroadcastfields[1];
+    //var audioStream = estbroadcastfields[2];
+    //var cameraID = estbroadcastfields[3];
+    //var cameraDesc = estbroadcastfields[4];
+    //var videoStream = estbroadcastfields[5];
+    //var videoCDN = estbroadcastfields[6];
+    //var userCount = estbroadcastfields[7];  //estasblishment count
+
+    //var isTahajjud = estbroadcastfields[8];  //estasblishment count
+
+
+
+   // console.log("isTahajjud: " + estbroadcastfields[8]);
+
+
+    CheckAudio(audiourl);
+    
+
+
+    //CheckVideo(videourl);
+
+
+}
+
+
+function CheckAudio(audiourl) {
+
+
+
+    $.ajax({
+        type: "POST",
+        url: "/Index?handler=checkaudio",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        
+         data: JSON.stringify(audiourl),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+
+
+           
+            if (data == "true") {
+               // alertsuccess("audio running");
+               
+                    $("#lblaudiostatus").text("Audio Online");
+                
+            }
+            else {
+                $("#lblaudiostatus").text("Audio Offline");
+
+            }
+        },
+        failure: function (response) {
+
+            alertfailed("failed to audio status");
+
+
+
+        }
+    }
+    );
+
+}
+
+
 
 
 
@@ -295,4 +478,31 @@ function writeIslamicDate(adjustment) {
     var outputIslamicDate = wdNames[iDate[4]] + ", "
         + iDate[5] + " " + iMonthNames[iDate[6]] + " " + iDate[7] + " AH";
     return outputIslamicDate;
+}
+
+
+
+
+
+function alertfailed(content) {
+
+    $.alert({
+        title: 'Error!',
+        type: 'red',
+        theme: 'modern',
+        content: content
+    });
+
+}
+
+
+function alertsuccess(content) {
+
+    $.alert({
+        title: 'Success!',
+        type: 'green',
+        theme: 'modern',
+        content: content
+    });
+
 }
