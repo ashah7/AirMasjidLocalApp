@@ -151,7 +151,7 @@ function GetUserPreferences() {
 
             SetUserOptions(obj.autoscreen, obj.tahajjud, obj.events, obj.establishid, obj.viewmode, obj.establishname);
 
-            SetDashboardState(obj.micstatus, obj.establishname, obj.audiourl, obj.videourl);
+            SetDashboardState(obj.micstatus, obj.establishname, obj.audiourl, obj.videourl,obj.viewmode,obj.autoscreen);
             
         },
         failure: function (response) {
@@ -255,7 +255,7 @@ function SetUserOptions(autoscreen, tahajjud, events, establishid, viewmode, est
 }
 
 
-function SetDashboardState(micstatus, establishname, audiourl, videourl) {
+function SetDashboardState(micstatus, establishname, audiourl, videourl,viewmode,autoscreen) {
 
 
 
@@ -287,7 +287,85 @@ function SetDashboardState(micstatus, establishname, audiourl, videourl) {
 
 
     CheckAudio(audiourl);
+    CheckVideo(videourl);
     
+
+
+    console.log("autoscreen value=" + autoScreen)
+    if (autoscreen == "1" && micstatus == "1") {
+
+        console.log("flip sequence started");
+        flipTV();
+
+    }
+
+
+    if (viewMode == "0") {
+        //dont care if mic is on or off            
+        jsHadithShow();
+        playAudio(audiourl);  //make sure stopping video here  currently stops video after playing audio
+
+    }
+
+    else if (viewmode == "1" && micstatus == "True") {
+
+
+        $("#hidCurrLiveScreenLabel").val(cameraDesc);
+
+
+        jsCameraShow();
+
+        //play video here - videostream will be null if videomode=0
+        //if video is null then play audio
+        if (videoCDN === "") {
+            console.log("video stream is offline attempting audio only");
+
+            //sometimes the next stream starts too quickly resulting in a non-playing loop
+
+
+            playAudio(audiourl);
+        }
+        else {
+
+            playVideo(videoCDN);
+        }
+
+    }
+    else if (viewmode == "1" && micstatus == "False") {
+
+        $("#hidCurrLiveScreenLabel").val("Hadith Time");
+        jsHadithShow();
+        playAudio(audiourl);  //make sure video is stopped
+
+    }
+
+
+    if (cameraDesc == "Floating Camera") {
+
+        console.log("Camera is " + cameraDesc);
+        $("#hidCurrLiveScreenLabel").val(cameraDesc);
+        jsCameraShow();
+        playVideo(videoCDN);
+    }
+
+    var userTahajjudValue = $("#hidTahajjudAzan").text();
+
+    //check tahajjudazan and play
+    console.log("user tahajjud value:" + userTahajjudValue);
+
+
+    // alert(isTahajjud);
+    if (userTahajjudValue == "1" && isTahajjud == "True") {
+
+        //   alert("playing");
+        playTahajjud();
+
+
+    }
+
+
+
+
 
 
     //CheckVideo(videourl);
@@ -339,7 +417,170 @@ function CheckAudio(audiourl) {
 }
 
 
+function CheckVideo(videourl) {
 
+    alert("called");
+
+
+    $.ajax({
+        type: "POST",
+        url: "/Index?handler=checkvideo",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+
+        data: JSON.stringify(videourl),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+
+
+
+            if (data == "true") {
+                // alertsuccess("audio running");
+
+                $("#lblvideostatus").text("Video Online");
+
+            }
+            else {
+                $("#lblvideostatus").text("Video Offline");
+
+            }
+        },
+        failure: function (response) {
+
+            alertfailed("failed to get video status");
+
+
+
+        }
+    }
+    );
+
+}
+
+
+function jsHadithShow() {
+
+
+    // stopAllOmxplayer();
+
+    stopVideo();
+
+    $("#divHadiths").show();
+
+    $("#divCamera").hide();
+
+    //if ($("#divCamera").is(':hidden')) {
+    //    alert("camera hidden")
+    //}
+
+
+    $("#divEvents").hide();
+
+    $("#iframeEvents").attr('src', "");
+    $("#iframeCamera").attr('src', "");
+
+    //$("#lblCameraViewDesc").text("Hadith Time");
+    $("#lblCameraViewDesc").text($("#hidCurrLiveScreenLabel").val());
+
+
+
+}
+
+
+
+
+function stopVideo() {
+
+    var omxStop = 'http://localhost:9192/stopall';
+    $.ajax({
+        url: omxStop,
+
+    });
+
+}
+
+function omxCheck() {
+
+
+
+    //this will error if now ip defined withing visual studio
+    var omxStatus = 'http://localhost:9192/omxcmd?cmd=position';
+
+    $.ajax({
+        url: omxStatus,
+
+        success: function (data) {
+            if (data == "no player") {
+                //  alert("starting omx");
+                console.log("client returned status for video: " + data)
+                return true;
+
+            }
+
+        },
+        error: function () {
+            console.log("error in playVideo")
+        }
+    });
+
+}
+
+
+function isPlaying(audelem) {
+
+    return !audelem.paused;
+}
+
+
+
+function eventstartimage() {
+
+    // var viewmode = $("#hidViewMode").val();
+
+
+    var audioStream = "<%=ViewState["streamUrl"] %>";
+    //take image from database
+    var image = 'http://updates.airmyprayer.co.uk/airmasjid/screenmessages/startevent.jpg';
+    var timeout = "10";
+    // var viewmode = viewmode;
+
+    var script = "http://localhost:5000/playstream.sh?" + image + "?" + timeout + "?" + audioStream
+    // alert(audioStream);
+
+    $.ajax({
+        url: script,
+        success: function (response) {
+            console.log("eventstartimage succeeded");
+
+        },
+        error: function () {
+            console.log('Error occured in eventstartimage');
+        }
+
+
+    });
+
+
+
+
+}
+
+
+
+
+function flipTV() {
+
+    //change this to script on amp-sys01 and cgi-scripts can only be accessed from vpn
+    var fliptv = 'http://localhost:5000/fliptv.sh';
+    $.ajax({
+        url: fliptv
+    });
+
+
+}
 
 
 

@@ -40,13 +40,13 @@ namespace AirMasjidLocalApp.Pages
 
         public ContentResult OnPostGetUserPreferencesAsync()
         {
-           
-            
+
+
             var autoscreen = "";
             var tahajjud = "";
-            int? establishid=null;
-            int? events=null;
-            int? viewmode=null;
+            int? establishid = null;
+            int? events = null;
+            int? viewmode = null;
             var establishname = "";
             var tweetid = "";
             var audiourl = "";
@@ -55,7 +55,7 @@ namespace AirMasjidLocalApp.Pages
             int? micstatus = null;
 
 
-            
+
 
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -105,16 +105,16 @@ namespace AirMasjidLocalApp.Pages
 
                         }
 
-                            // cmd.ExecuteNonQuery();
-                            conn.Close();
+                        // cmd.ExecuteNonQuery();
+                        conn.Close();
 
-                      //  return Content(autoscreen,tahajjud);
+                        //  return Content(autoscreen,tahajjud);
 
                         return Content("{ " +
-                            "\"autoscreen\":"+"\""+autoscreen+"\""+ 
-                            ",\"tahajjud\":" + "\"" + tahajjud + "\"" + 
-                            ",\"establishid\":" + establishid + 
-                            ",\"events\":" + events + 
+                            "\"autoscreen\":" + "\"" + autoscreen + "\"" +
+                            ",\"tahajjud\":" + "\"" + tahajjud + "\"" +
+                            ",\"establishid\":" + establishid +
+                            ",\"events\":" + events +
                             ",\"viewmode\":" + viewmode +
                             ",\"establishname\":" + "\"" + establishname + "\"" +
                             ",\"tweetid\":" + "\"" + tweetid + "\"" +
@@ -138,7 +138,7 @@ namespace AirMasjidLocalApp.Pages
                 _logger.LogWarning(Message);
 
                 return Content("failed");
-                
+
             }
 
         }
@@ -170,10 +170,10 @@ namespace AirMasjidLocalApp.Pages
 
 
 
-            string cmdcheckaudio = "[[ `omxplayer -i "+audiourl+ " 2>&1 | grep Stream` ]] && echo 'running'";
+            string cmdcheckaudio = "[[ `omxplayer -i " + audiourl + " 2>&1 | grep Stream` ]] && echo 'running'";
 
 
-            string audiourlstatus=cmdcheckaudio.Bash().Split(';').First();
+            string audiourlstatus = cmdcheckaudio.Bash().Split(';').First();
 
             if (audiourlstatus == "running")
             {
@@ -188,10 +188,54 @@ namespace AirMasjidLocalApp.Pages
 
 
 
-            
+
 
         }
 
+        public ContentResult OnPostCheckVideoAsync()
+        {
+            var videourl = "";
+
+            {
+                MemoryStream stream = new MemoryStream();
+                Request.Body.CopyTo(stream);
+                stream.Position = 0;
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string requestBody = reader.ReadToEnd();
+                    if (requestBody.Length > 0)
+                    {
+                        var obj = JsonConvert.DeserializeObject(requestBody);
+                        if (obj != null)
+                        {
+                            videourl = obj.ToString();
+
+                        }
+                    }
+                }
+            }
+
+            string cmdcheckvideo = "[[ `omxplayer -i "+videourl +" 2>&1 | grep Stream | grep Video` ]] && echo 'running'";
+
+
+            string videourlstatus = cmdcheckvideo.Bash().Split(';').First();
+
+            if (videourlstatus == "running")
+            {
+
+
+                return Content("true");
+            }
+            else
+            {
+                return Content("false");
+            }
+
+
+
         }
+    }
+
+
 }
         
