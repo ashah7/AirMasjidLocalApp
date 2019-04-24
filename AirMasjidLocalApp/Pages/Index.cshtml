@@ -1,22 +1,28 @@
 ﻿@page
 @model IndexModel
 @{
+
+
     ViewData["Title"] = "AirMasjid";
 }
+
+@using System.IO;
 
 
 @functions {
 
 
-string serial = "cat /proc/cpuinfo | grep Serial | awk '{print $3}'".Bash().Split(';').First();
 
-//    string serial = "00000000d86d6b5c";
+    string serial = "cat /proc/cpuinfo | grep Serial | awk '{print $3}'".Bash().Split(';').First();
+
+    //    string serial = "00000000d86d6b5c";
 
 
         
+
+
+
 }
-
-
 
 
 
@@ -28,407 +34,405 @@ string serial = "cat /proc/cpuinfo | grep Serial | awk '{print $3}'".Bash().Spli
 
             @*<div class="col-md-12" style="text-align: center">*@
 
-                <div class="row justify-content-center align-items-center">
-
-                   
-             
-                    <asp:HiddenField ID="hidExternalIP" ClientIDMode="Static" Visible="true" runat="server" />
-
-                    <div id="divRadioinfo">
-
-                        <span id="spanRadioInfo" style="color: white">AirMasjid</span>
-                        <br />
-
-                        <span id="spaninternalIP" class="h5 cssRadioDetails text-center"></span>
-
-                        <span id="lblWidth" class="h5 cssRadioDetails"></span>
-
-                        <span id="lblHeight" class="h5 cssRadioDetails"></span>
-                        <br />
-
-                        <span id="spanrelease" class="h5 cssRadioDetails">Version 14.0</span>
-                        <br />
-
-                        <span id="spanwebservername" class="h5 cssRadioDetails"></span>
+            <div class="row justify-content-center align-items-center">
 
 
-                    </div>
+
+                <asp:HiddenField ID="hidExternalIP" ClientIDMode="Static" Visible="true" runat="server" />
+
+                <div id="divRadioinfo">
+
+                    <span id="spanRadioInfo" style="color: white">AirMasjid</span>
+                    <br />
+
+                    <span id="spaninternalIP" class="h5 cssRadioDetails text-center"></span>
+
+                    <span id="lblWidth" class="h5 cssRadioDetails"></span>
+
+                    <span id="lblHeight" class="h5 cssRadioDetails"></span>
+                    <br />
+
+                    <span id="spanrelease" class="h5 cssRadioDetails">Version 14.0</span>
+                    <br />
+
+                    <span id="spanwebservername" class="h5 cssRadioDetails"></span>
+
 
                 </div>
+
+            </div>
             @*</div>*@
 
-        
-                <div class="row p-2">
-                    <br />
-                   
-                            <table id="tblPrayerTimes" class="table-condensed table-borderless">
-                                <tr>
-                                    <th colspan="3">
 
-                                        @*<asp:Label ID = "LblPrayer" runat="server" CssClass="prayerTimeHeaderscss" Text="Prayer Time"></asp:Label>*@
+            <div class="row p-2">
+                <br />
 
-                                        <span class="prayerTimeHeaderscss">Prayer Time</span>
+                <table id="tblPrayerTimes" class="table-condensed table-borderless">
+                    <tr>
+                        <th colspan="3">
 
-                                    </th>
-                                    <th colspan="1">
-                                        
-                                        @*<asp:Label ID="lblJammat" runat="server" CssClass="prayerTimeHeaderscss" Text="Jamaat Time"></asp:Label>*@
+                            @*<asp:Label ID = "LblPrayer" runat="server" CssClass="prayerTimeHeaderscss" Text="Prayer Time"></asp:Label>*@
 
-                                        <span class="prayerTimeHeaderscss">Jamaat Time</span>
+                            <span class="prayerTimeHeaderscss">Prayer Time</span>
 
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td></td>
+                        </th>
+                        <th colspan="1">
 
-                                    <th>
-                                        @*<asp:Label ID="lblToday" runat="server" CssClass="prayerlabeltodaytomorrowcss" Text="Today"></asp:Label>*@
+                            @*<asp:Label ID="lblJammat" runat="server" CssClass="prayerTimeHeaderscss" Text="Jamaat Time"></asp:Label>*@
 
-                                        <span class="prayerlabeltodaytomorrowcss">Today</span>
+                            <span class="prayerTimeHeaderscss">Jamaat Time</span>
 
-                                    </th>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td></td>
 
-                                    <th>
-                                        @*<asp:Label ID="lblTomorrow" runat="server" CssClass="prayerlabeltodaytomorrowcss" Text="Tomorrow"></asp:Label>*@
+                        <th>
+                            @*<asp:Label ID="lblToday" runat="server" CssClass="prayerlabeltodaytomorrowcss" Text="Today"></asp:Label>*@
 
-                                        <span class="prayerlabeltodaytomorrowcss">Tomorrow</span>
+                            <span class="prayerlabeltodaytomorrowcss">Today</span>
 
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        @*<asp:Label ID="lblFajr" runat="server" CssClass="prayerLabelscss" Text="Fajr"></asp:Label>*@
+                        </th>
 
-                                        <span id="lblFajr" class="prayerLabelscss">Fajr</span>
+                        <th>
+                            @*<asp:Label ID="lblTomorrow" runat="server" CssClass="prayerlabeltodaytomorrowcss" Text="Tomorrow"></asp:Label>*@
 
-                                    </td>
-                                    <td style="text-align: center">
+                            <span class="prayerlabeltodaytomorrowcss">Tomorrow</span>
 
-                                        @*<asp:Label ID="lblbegFajrTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>*@
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @*<asp:Label ID="lblFajr" runat="server" CssClass="prayerLabelscss" Text="Fajr"></asp:Label>*@
 
-                                        <span id="lblbegFajrTime" class="prayerTimescss">00:00</span>
+                            <span id="lblFajr" class="prayerLabelscss">Fajr</span>
 
-                                    </td>
-                                    <td style="text-align: center">
-                                        @*<asp:Label ID="lbltmrwFajrTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>*@
+                        </td>
+                        <td style="text-align: center">
 
-                                        <span id="lbltmrwFajrTime" class="prayerTimeTmrwcss">00:00</span>
+                            @*<asp:Label ID="lblbegFajrTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>*@
 
-                                    </td>
-                                    <td id="tdfajrJamaatbox" style="text-align: center">
+                            <span id="lblbegFajrTime" class="prayerTimescss">00:00</span>
 
+                        </td>
+                        <td style="text-align: center">
+                            @*<asp:Label ID="lbltmrwFajrTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>*@
 
-                                        @*<asp:TextBox ID="txtFajrJamaat" runat="server" Text="00:00" onmousedown="displayPicker('Fajr','tdfajrJamaatbox');" MaxLength="5" CssClass="prayerTimeJamaat"></asp:TextBox>*@
+                            <span id="lbltmrwFajrTime" class="prayerTimeTmrwcss">00:00</span>
 
-                                        <span id="lblFajrJamaat" class="prayerTimeJamaat">00:00</span>
+                        </td>
+                        <td id="tdfajrJamaatbox" style="text-align: center">
 
-                                </tr>
-                               
-                                <tr>
-                                    <td>
-                                        @*<asp:Label ID="lblSunrise" runat="server" CssClass="prayerLabelscss" Text="Sunrise"></asp:Label>*@
 
-                                        <span id="lblSunrise" class="prayerLabelscss">Sunrise</span>
+                            @*<asp:TextBox ID="txtFajrJamaat" runat="server" Text="00:00" onmousedown="displayPicker('Fajr','tdfajrJamaatbox');" MaxLength="5" CssClass="prayerTimeJamaat"></asp:TextBox>*@
 
-                                    </td>
-                                    <td style="text-align: center">
+                            <span id="lblFajrJamaat" class="prayerTimeJamaat">00:00</span>
 
-                                        @*<asp:Label ID="lblbegSunRiseTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>*@
+                    </tr>
 
-                                        <span id="lblbegSunRiseTime" class="prayerTimescss">00:00</span>
-                                    </td>
-                                    <td style="text-align: center">
-                                        @*<asp:Label ID="lbltmrwSunriseTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>*@
-                                        <span id="lbltmrwSunriseTime" class="prayerTimeTmrwcss">00:00</span>
+                    <tr>
+                        <td>
+                            @*<asp:Label ID="lblSunrise" runat="server" CssClass="prayerLabelscss" Text="Sunrise"></asp:Label>*@
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        @*<asp:Label ID="lblDkubra" runat="server" CssClass="prayerLabelscss" Text="Dahawa Kubra"></asp:Label>*@
+                            <span id="lblSunrise" class="prayerLabelscss">Sunrise</span>
 
-                                        <span id="lblDkubra" class="prayerLabelscss">Dahawa Kubra</span>
+                        </td>
+                        <td style="text-align: center">
 
-                                    </td>
-                                    <td>
-                                        @*<asp:Label ID="lblDkubraTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>*@
+                            @*<asp:Label ID="lblbegSunRiseTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>*@
 
-                                        <span id="lblDkubraTime" class="prayerTimescss">00:00</span>
+                            <span id="lblbegSunRiseTime" class="prayerTimescss">00:00</span>
+                        </td>
+                        <td style="text-align: center">
+                            @*<asp:Label ID="lbltmrwSunriseTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>*@
+                            <span id="lbltmrwSunriseTime" class="prayerTimeTmrwcss">00:00</span>
 
-                                    </td>
-                                    <td style="text-align: center">
-                                        </td >
-                                        <td id="td1" style="text-align: center">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        @*<asp:Label ID="lblDhuhr" runat="server" CssClass="prayerLabelscss" Text="Dhuhr"></asp:Label>*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @*<asp:Label ID="lblDkubra" runat="server" CssClass="prayerLabelscss" Text="Dahawa Kubra"></asp:Label>*@
 
-                                        <span id="lblDhuhr" class="prayerLabelscss">Dhuhr</span>
+                            <span id="lblDkubra" class="prayerLabelscss">Dahawa Kubra</span>
 
-                                    </td>
-                                    <td style="text-align: center">
-                                        @*<asp:Label ID="lblbegDhuhrTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>*@
+                        </td>
+                        <td>
+                            @*<asp:Label ID="lblDkubraTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>*@
 
-                                        <span id="lblbegDhuhrTime" class="prayerTimescss">00:00</span>
+                            <span id="lblDkubraTime" class="prayerTimescss">00:00</span>
 
-                                    </td>
+                        </td>
+                        <td style="text-align: center"></td>
+                        <td id="td1" style="text-align: center"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @*<asp:Label ID="lblDhuhr" runat="server" CssClass="prayerLabelscss" Text="Dhuhr"></asp:Label>*@
 
+                            <span id="lblDhuhr" class="prayerLabelscss">Dhuhr</span>
 
-                                    <td style="text-align: center">
-                                        @*<asp:Label ID="lbltmrwDhuhrTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>*@
+                        </td>
+                        <td style="text-align: center">
+                            @*<asp:Label ID="lblbegDhuhrTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>*@
 
-                                        <span id="lbltmrwDhuhrTime" class="prayerTimeTmrwcss">00:00</span>
+                            <span id="lblbegDhuhrTime" class="prayerTimescss">00:00</span>
 
-                                    </td>
-                                    <td id="tddhuhrJamaatbox" style="text-align: center">
-                                       
-                                        @*<asp:TextBox ID="txtDhuhrJamaat" runat="server" CssClass="prayerTimeJamaat" Text="00:00" onmousedown="displayPicker('Dhuhr','tddhuhrJamaatbox');" MaxLength="5"></asp:TextBox>*@
+                        </td>
 
-                                        <span id="lblDhuhrJamaat" class="prayerTimeJamaat">00:00</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        @*<asp:Label ID="lblAsr" runat="server" CssClass="prayerLabelscss" Text="Asr"></asp:Label>*@
 
-                                        <span id="lblAsr" class="prayerLabelscss">Asr</span>
+                        <td style="text-align: center">
+                            @*<asp:Label ID="lbltmrwDhuhrTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>*@
 
+                            <span id="lbltmrwDhuhrTime" class="prayerTimeTmrwcss">00:00</span>
 
-                                    </td>
-                                    <td style="text-align: center">
-                                        @*<asp:Label ID="lblbegAsrTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>*@
+                        </td>
+                        <td id="tddhuhrJamaatbox" style="text-align: center">
 
-                                        <span id="lblbegAsrTime" class="prayerTimescss">00:00</span>
+                            @*<asp:TextBox ID="txtDhuhrJamaat" runat="server" CssClass="prayerTimeJamaat" Text="00:00" onmousedown="displayPicker('Dhuhr','tddhuhrJamaatbox');" MaxLength="5"></asp:TextBox>*@
 
+                            <span id="lblDhuhrJamaat" class="prayerTimeJamaat">00:00</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @*<asp:Label ID="lblAsr" runat="server" CssClass="prayerLabelscss" Text="Asr"></asp:Label>*@
 
-                                    </td>
-                                    <td style="text-align: center">
-                                        @*<asp:Label ID="lbltmrwAsrTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>*@
+                            <span id="lblAsr" class="prayerLabelscss">Asr</span>
 
-                                        <span id="lbltmrwAsrTime" class="prayerTimeTmrwcss">00:00</span>
 
-                                    </td>
-                                    <td id="tdasrJamaatbox" style="text-align: center">
-                                        @*<asp:TextBox ID="txtAsrJamaat" runat="server" CssClass="prayerTimeJamaat" Text="00:00" onmousedown="displayPicker('Asr','tdasrJamaatbox');" MaxLength="5"></asp:TextBox>*@
-                                        
-                                        <span id="lblAsrJamaat" class="prayerTimeJamaat">00:00</span>
-                                    
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        @*<asp:Label ID="lblMaghrib" runat="server" CssClass="prayerLabelscss" Text="Maghrib"></asp:Label>*@
+                        </td>
+                        <td style="text-align: center">
+                            @*<asp:Label ID="lblbegAsrTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>*@
 
-                                        <span id="lblMaghrib" class="prayerLabelscss">Maghrib</span>
+                            <span id="lblbegAsrTime" class="prayerTimescss">00:00</span>
 
-                                    </td>
-                                    <td style="text-align: center">
-                                        @*<asp:Label ID="lblbegMaghribTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>*@
 
-                                        <span id="lblbegMaghribTime" class="prayerTimescss">00:00</span>
+                        </td>
+                        <td style="text-align: center">
+                            @*<asp:Label ID="lbltmrwAsrTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>*@
 
-                                    </td>
-                                    <td style="text-align: center">
-                                        @*<asp:Label ID="lbltmrwMaghrib" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>*@
+                            <span id="lbltmrwAsrTime" class="prayerTimeTmrwcss">00:00</span>
 
-                                        <span id="lbltmrwMaghrib" class="prayerTimeTmrwcss">00:00</span>
+                        </td>
+                        <td id="tdasrJamaatbox" style="text-align: center">
+                            @*<asp:TextBox ID="txtAsrJamaat" runat="server" CssClass="prayerTimeJamaat" Text="00:00" onmousedown="displayPicker('Asr','tdasrJamaatbox');" MaxLength="5"></asp:TextBox>*@
 
-                                    </td>
-                                    <td id="tdmaghribJamaatbox" style="text-align: center">
-                                        @*<asp:TextBox ID="txtMaghribJamaat" runat="server" CssClass="prayerTimeJamaat" Text="00:00" onmousedown="displayPicker('Maghrib','tdmaghribJamaatbox');" MaxLength="5"></asp:TextBox>*@
+                            <span id="lblAsrJamaat" class="prayerTimeJamaat">00:00</span>
 
-                                        <span id="lblMaghribJamaat" class="prayerTimeJamaat">00:00</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @*<asp:Label ID="lblMaghrib" runat="server" CssClass="prayerLabelscss" Text="Maghrib"></asp:Label>*@
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        @*<asp:Label ID="lblIsha" runat="server" CssClass="prayerLabelscss" Text="Isha"></asp:Label>*@
+                            <span id="lblMaghrib" class="prayerLabelscss">Maghrib</span>
 
-                                        <span id="lblIsha" class="prayerLabelscss">Isha</span>
+                        </td>
+                        <td style="text-align: center">
+                            @*<asp:Label ID="lblbegMaghribTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>*@
 
-                                    </td>
-                                    <td style="text-align: center">
-                                        @*<asp:Label ID="lblbegIshaTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>*@
+                            <span id="lblbegMaghribTime" class="prayerTimescss">00:00</span>
 
-                                        <span id="lblbegIshaTime" class="prayerTimescss">00:00</span>
+                        </td>
+                        <td style="text-align: center">
+                            @*<asp:Label ID="lbltmrwMaghrib" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>*@
 
-                                    </td>
-                                    <td style="text-align: center">
-                                        @*<asp:Label ID="lbltmrwIshaTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>*@
+                            <span id="lbltmrwMaghrib" class="prayerTimeTmrwcss">00:00</span>
 
-                                        <span id="lbltmrwIshaTime" class="prayerTimeTmrwcss">00:00</span>
+                        </td>
+                        <td id="tdmaghribJamaatbox" style="text-align: center">
+                            @*<asp:TextBox ID="txtMaghribJamaat" runat="server" CssClass="prayerTimeJamaat" Text="00:00" onmousedown="displayPicker('Maghrib','tdmaghribJamaatbox');" MaxLength="5"></asp:TextBox>*@
 
-                                    </td>
-                                    <td id="tdishaJamaatbox" style="text-align: center">
+                            <span id="lblMaghribJamaat" class="prayerTimeJamaat">00:00</span>
 
-                                        @*<asp:TextBox ID="txtIshaJamaat" runat="server" CssClass="prayerTimeJamaat" Text="00:00" onmousedown="displayPicker('Isha','tdishaJamaatbox');" MaxLength="5"></asp:TextBox>*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @*<asp:Label ID="lblIsha" runat="server" CssClass="prayerLabelscss" Text="Isha"></asp:Label>*@
 
-                                        <span id="lblIshaJamaat" class="prayerTimeJamaat">00:00</span>
+                            <span id="lblIsha" class="prayerLabelscss">Isha</span>
 
-                                    </td>
-                                </tr>
+                        </td>
+                        <td style="text-align: center">
+                            @*<asp:Label ID="lblbegIshaTime" runat="server" CssClass="prayerTimescss" Text="00:00"></asp:Label>*@
 
-                                <tr>
-                                    <td>
-                                        @*<asp:Label ID="lblJamaat" runat="server" CssClass="prayerLabelscss" Text="Jummah 1"></asp:Label>*@
+                            <span id="lblbegIshaTime" class="prayerTimescss">00:00</span>
 
-                                        <span id="lblJummah1" class="prayerLabelscss">Jummah 1</span>
+                        </td>
+                        <td style="text-align: center">
+                            @*<asp:Label ID="lbltmrwIshaTime" runat="server" CssClass="prayerTimeTmrwcss" Text="00:00"></asp:Label>*@
 
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td id="tdjummah1Jamaatbox" style="text-align: center">
+                            <span id="lbltmrwIshaTime" class="prayerTimeTmrwcss">00:00</span>
 
-                                        @*<asp:TextBox ID="txtJummah1Jamaat" runat="server" CssClass="prayerTimeJamaat" Text="13:30" onmousedown="displayPicker('Jummah1','tdjummah1Jamaatbox');" MaxLength="5"></asp:TextBox>*@
+                        </td>
+                        <td id="tdishaJamaatbox" style="text-align: center">
 
-                                        <span id="lblJummah1Jamaat" class="prayerTimeJamaat">13:30</span>
+                            @*<asp:TextBox ID="txtIshaJamaat" runat="server" CssClass="prayerTimeJamaat" Text="00:00" onmousedown="displayPicker('Isha','tdishaJamaatbox');" MaxLength="5"></asp:TextBox>*@
 
-                                    </td>
+                            <span id="lblIshaJamaat" class="prayerTimeJamaat">00:00</span>
 
-                                </tr>
-                                <tr>
-                                    <td>
-                                        @*<asp:Label ID="lblJummah2" runat="server" CssClass="prayerLabelscss" Text="Jummah 2"></asp:Label>*@
+                        </td>
+                    </tr>
 
-                                        <span id="lblJummah2" class="prayerLabelscss">Jummah 2</span>
+                    <tr>
+                        <td>
+                            @*<asp:Label ID="lblJamaat" runat="server" CssClass="prayerLabelscss" Text="Jummah 1"></asp:Label>*@
 
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td id="tdjummah2Jamaatbox" style="text-align: center">
-                                        
-                                        @*<asp:TextBox ID="txtJummah2Jamaat" runat="server" CssClass="prayerTimeJamaat" Text="13:30" onmousedown="displayPicker('Jummah2','tdjummah2Jamaatbox');" MaxLength="5"></asp:TextBox>*@
+                            <span id="lblJummah1" class="prayerLabelscss">Jummah 1</span>
 
-                                        <span id="lblJummah2Jamaat" class="prayerTimeJamaat">13:30</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td id="tdjummah1Jamaatbox" style="text-align: center">
 
-                                    </td>
+                            @*<asp:TextBox ID="txtJummah1Jamaat" runat="server" CssClass="prayerTimeJamaat" Text="13:30" onmousedown="displayPicker('Jummah1','tdjummah1Jamaatbox');" MaxLength="5"></asp:TextBox>*@
 
-                                </tr>
+                            <span id="lblJummah1Jamaat" class="prayerTimeJamaat">13:30</span>
 
-                                        
-                            </table>
+                        </td>
 
-                    @*<asp:Button ID="btnRadioStatus" ClientIDMode="Static" OnClick="btnRadioStatus_Click" runat="server" Enabled="false" CssClass="cssRadioStatus"
-                                Text="Button" />*@
+                    </tr>
+                    <tr>
+                        <td>
+                            @*<asp:Label ID="lblJummah2" runat="server" CssClass="prayerLabelscss" Text="Jummah 2"></asp:Label>*@
 
+                            <span id="lblJummah2" class="prayerLabelscss">Jummah 2</span>
 
-                    <input id="btnRadioStatus" type="button" class="cssRadioStatus" value="button" />
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td id="tdjummah2Jamaatbox" style="text-align: center">
 
-                </div>
+                            @*<asp:TextBox ID="txtJummah2Jamaat" runat="server" CssClass="prayerTimeJamaat" Text="13:30" onmousedown="displayPicker('Jummah2','tdjummah2Jamaatbox');" MaxLength="5"></asp:TextBox>*@
 
-              
+                            <span id="lblJummah2Jamaat" class="prayerTimeJamaat">13:30</span>
+
+                        </td>
+
+                    </tr>
+
+
+                </table>
+
+                @*<asp:Button ID="btnRadioStatus" ClientIDMode="Static" OnClick="btnRadioStatus_Click" runat="server" Enabled="false" CssClass="cssRadioStatus"
+                    Text="Button" />*@
+
+
+                <input id="btnRadioStatus" type="button" class="cssRadioStatus" value="button" />
+
+            </div>
+
+
 
 
             <div class="row justify-content-center align-items-center p-2">
 
-              
-                    <table class="table table-bordered">
 
-                        <tr>
-                            <th colspan="3" style="text-align: center">
+                <table class="table table-bordered">
 
-                                @*<asp:Label ID="idlblOptions" runat="server" CssClass="h5 cssOptionsHeader" Text="Select AirMasjid Options"></asp:Label>*@
+                    <tr>
+                        <th colspan="3" style="text-align: center">
 
-
-                                <span id="lblOptions" class="h5 cssOptionsHeader">Select AirMasjid Options</span>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                @*<asp:Label ID="lblchkAutoScreenStatus" runat="server" CssClass="h5 csschkboxesoptions" Text="Enable Auto Screen"></asp:Label>*@
-
-                                <span id="lblchkAutoScreenStatus" class="h5 csschkboxesoptions">Enable Auto Screen</span>
+                            @*<asp:Label ID="idlblOptions" runat="server" CssClass="h5 cssOptionsHeader" Text="Select AirMasjid Options"></asp:Label>*@
 
 
-                            </td>
-                            <td style="text-align: center" colspan="2">
+                            <span id="lblOptions" class="h5 cssOptionsHeader">Select AirMasjid Options</span>
 
-                                @*<asp:CheckBox ID="chkAutoScreenStatus" ClientIDMode="Static" onclick="updateAutoScreen();" runat="server" TextAlign="Left" />*@
-                                
-                                <input id="chkAutoScreenStatus" class="text-left" type="checkbox" />
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @*<asp:Label ID="lblchkAutoScreenStatus" runat="server" CssClass="h5 csschkboxesoptions" Text="Enable Auto Screen"></asp:Label>*@
 
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                @*<asp:Label ID="lblViewMode" runat="server" CssClass="h5 csschkboxesoptions" Text="ViewMode"></asp:Label>*@
-
-                                <span id="lblViewMode" class="h5 csschkboxesoptions">ViewMode</span>
-
-                            </td>
-                            <td style="text-align: center" colspan="2">
-
-                                @*<asp:Label ID="lblViewModeText" ClientIDMode="Static" runat="server" CssClass="h5 csschkboxesoptions" Text=""></asp:Label>*@
-
-                                <span id="lblViewModeText" class="h5 csschkboxesoptions"></span>
-
-                            </td>
-                        </tr>
+                            <span id="lblchkAutoScreenStatus" class="h5 csschkboxesoptions">Enable Auto Screen</span>
 
 
+                        </td>
+                        <td style="text-align: center" colspan="2">
 
+                            @*<asp:CheckBox ID="chkAutoScreenStatus" ClientIDMode="Static" onclick="updateAutoScreen();" runat="server" TextAlign="Left" />*@
 
-                    </table>
+                            <input id="chkAutoScreenStatus" class="text-left" type="checkbox" />
 
+                        </td>
+                    </tr>
 
-                    <audio id="masjidstream" controls="controls">
-                        <source id="audioSource" src=""></>
-                        Your browser does not support the audio element.
+                    <tr>
+                        <td>
+                            @*<asp:Label ID="lblViewMode" runat="server" CssClass="h5 csschkboxesoptions" Text="ViewMode"></asp:Label>*@
 
-                    </audio>
+                            <span id="lblViewMode" class="h5 csschkboxesoptions">ViewMode</span>
+
+                        </td>
+                        <td style="text-align: center" colspan="2">
+
+                            @*<asp:Label ID="lblViewModeText" ClientIDMode="Static" runat="server" CssClass="h5 csschkboxesoptions" Text=""></asp:Label>*@
+
+                            <span id="lblViewModeText" class="h5 csschkboxesoptions"></span>
+
+                        </td>
+                    </tr>
 
 
 
-          
+
+                </table>
+
+
+                <audio id="masjidstream" controls="controls">
+                    <source id="audioSource" src=""></>
+                    Your browser does not support the audio element.
+
+                </audio>
+
+
+
+
 
                 @*<div class="col-md-12" style="text-align: center">
                     <div class="col-md-12" style="text-align: center">*@
 
 
 
-                       
-                        @*<asp:Label ID="lblaudiostatus" runat="server" ClientIDMode="Static" CssClass="cssIceCastStats" Text="Audio Stream Status: Offline"></asp:Label><br />
-                        <asp:Label ID="lblvideostatus" runat="server" ClientIDMode="Static" CssClass="cssIceCastStats" Text="Video Stream Status: Offline"></asp:Label><br />
-                        <asp:Label ID="lblusercount" runat="server" ClientIDMode="Static" CssClass="cssIceCastStats" Text="Live Users: Offline"></asp:Label><br />*@
+
+                @*<asp:Label ID="lblaudiostatus" runat="server" ClientIDMode="Static" CssClass="cssIceCastStats" Text="Audio Stream Status: Offline"></asp:Label><br />
+                    <asp:Label ID="lblvideostatus" runat="server" ClientIDMode="Static" CssClass="cssIceCastStats" Text="Video Stream Status: Offline"></asp:Label><br />
+                    <asp:Label ID="lblusercount" runat="server" ClientIDMode="Static" CssClass="cssIceCastStats" Text="Live Users: Offline"></asp:Label><br />*@
 
 
-                         <span id="lblaudiostatus" class="cssIceCastStats">Audio Stream Status: Offline</span>
+                <span id="lblaudiostatus" class="cssIceCastStats">Audio Stream Status: Offline</span>
 
-                         <span id="lblvideostatus" class="cssIceCastStats">Video Stream Status: Offline</span>
+                <span id="lblvideostatus" class="cssIceCastStats">Video Stream Status: Offline</span>
 
-                         <span id="lblusercount" class="cssIceCastStats">Live Users: Offline</span>
-
-
+                <span id="lblusercount" class="cssIceCastStats">Live Users: Offline</span>
 
 
-                        <%--the below values are used to gather the values from postback
-                        the camera URL and the current label for the div the update panel here controls all the partial updates every 30s--%>
-                        <asp:HiddenField ID="hidCurrLiveScreenLabel" ClientIDMode="Static" runat="server" />
-
-                        <asp:HiddenField ID="hidCamUrl" ClientIDMode="Static" runat="server" />
-
-                        <asp:HiddenField ID="hidCamShortUrl" ClientIDMode="Static" runat="server" />
-
-                        <asp:HiddenField ID="hidAudioUrl" ClientIDMode="Static" runat="server" />
-
-                        <asp:HiddenField ID="hidViewMode" ClientIDMode="Static" runat="server" />
-
-                        <asp:HiddenField ID="hidAutoScreen" ClientIDMode="Static" runat="server" />
-
-                        <asp:HiddenField ID="hidMicStatus" ClientIDMode="Static" runat="server" />
-
-                        <asp:HiddenField ID="hidTahajjudAzan" ClientIDMode="Static" runat="server" />
 
 
-                    @*</div>
+                <%--the below values are used to gather the values from postback
+                the camera URL and the current label for the div the update panel here controls all the partial updates every 30s--%>
+                <asp:HiddenField ID="hidCurrLiveScreenLabel" ClientIDMode="Static" runat="server" />
+
+                <asp:HiddenField ID="hidCamUrl" ClientIDMode="Static" runat="server" />
+
+                <asp:HiddenField ID="hidCamShortUrl" ClientIDMode="Static" runat="server" />
+
+                <asp:HiddenField ID="hidAudioUrl" ClientIDMode="Static" runat="server" />
+
+                <asp:HiddenField ID="hidViewMode" ClientIDMode="Static" runat="server" />
+
+                <asp:HiddenField ID="hidAutoScreen" ClientIDMode="Static" runat="server" />
+
+                <asp:HiddenField ID="hidMicStatus" ClientIDMode="Static" runat="server" />
+
+                <asp:HiddenField ID="hidTahajjudAzan" ClientIDMode="Static" runat="server" />
 
 
-                </div>*@
+                @*</div>
+
+
+                    </div>*@
 
 
 
@@ -439,8 +443,8 @@ string serial = "cat /proc/cpuinfo | grep Serial | awk '{print $3}'".Bash().Spli
 
 
 
-     
-        
+
+
 
         <div class="col-md-6" style="text-align: center">
 
@@ -451,45 +455,45 @@ string serial = "cat /proc/cpuinfo | grep Serial | awk '{print $3}'".Bash().Spli
             <div class="row justify-content-center align-items-center h-75">
 
 
-              
-
-
-                            <div id="divEvents" class="embed-responsive embed-responsive embed-responsive-16by9">
-                                <iframe id="iframeEvents" clientidmode="static" runat="server" class="embed-responsive-item text-center" allowfullscreen="true" webkitallowfullscreen="true" style="border: none" scrolling="No"></iframe>
-                            </div>
 
 
 
-                    <asp:Label ID="lblcamerastream" runat="server" Text="Label"></asp:Label>
-
-
-                            <div id="divCamera" class="embed-responsive embed-responsive-16by9 text-center">
-                                <iframe id="iframeCamera" clientidmode="static" runat="server" class="embed-responsive-item text-center"
-                                        allowfullscreen="true" webkitallowfullscreen="true" style="border: none" scrolling="No"></iframe>
-                            </div>
+                <div id="divEvents" class="embed-responsive embed-responsive embed-responsive-16by9">
+                    <iframe id="iframeEvents" clientidmode="static" runat="server" class="embed-responsive-item text-center" allowfullscreen="true" webkitallowfullscreen="true" style="border: none" scrolling="No"></iframe>
+                </div>
 
 
 
+                <asp:Label ID="lblcamerastream" runat="server" Text="Label"></asp:Label>
 
 
-                    <div id="divHadiths" class="">
-                        <div id="caraHadiths" class="carousel slide" data-ride="carousel">
-                            <!-- Indicators -->
+                <div id="divCamera" class="embed-responsive embed-responsive-16by9 text-center">
+                    <iframe id="iframeCamera" clientidmode="static" runat="server" class="embed-responsive-item text-center"
+                            allowfullscreen="true" webkitallowfullscreen="true" style="border: none" scrolling="No"></iframe>
+                </div>
 
-                            <ol class="carousel-indicators"></ol>
 
-                            <!-- Wrapper for slides -->
-                            <div class="carousel-inner">
-                            </div>
-                            <a class="left carousel-control" href="#caraHadiths" data-slide="prev">
-                                <%-- <span class="glyphicon glyphicon-chevron-left"></span>--%>
-                            </a>
-                            <a class="right carousel-control" href="#caraHadiths" data-slide="next">
-                                <%--  <span class="glyphicon glyphicon-chevron-right"></span>--%>
-                            </a>
+
+
+
+                <div id="divHadiths" class="">
+                    <div id="caraHadiths" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators -->
+
+                        <ol class="carousel-indicators"></ol>
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner">
                         </div>
-
+                        <a class="left carousel-control" href="#caraHadiths" data-slide="prev">
+                            @*<%-- <span class="glyphicon glyphicon-chevron-left"></span>--%>*@
+                        </a>
+                        <a class="right carousel-control" href="#caraHadiths" data-slide="next">
+                            @*<%--  <span class="glyphicon glyphicon-chevron-right"></span>--%>*@
+                        </a>
                     </div>
+
+                </div>
 
 
 
@@ -501,11 +505,11 @@ string serial = "cat /proc/cpuinfo | grep Serial | awk '{print $3}'".Bash().Spli
                         <br />
 
 
-                            <asp:Label ID = "lblCameraViewDesc" ClientIDMode="Static" style="color: white; font-size: 2em; text-align: center" runat="server" Text="Label"></asp:Label>
+                        <asp:Label ID="lblCameraViewDesc" ClientIDMode="Static" style="color: white; font-size: 2em; text-align: center" runat="server" Text="Label"></asp:Label>
 
-                            <br />
-                            <span id="streamDescMain" style="color: white; font-size: 2em; text-align: center"><%=ViewState["streamDescription"] %></span>
-                            <br />
+                        <br />
+                        <span id="streamDescMain" style="color: white; font-size: 2em; text-align: center"><%=ViewState["streamDescription"] %></span>
+                        <br />
 
 
                     </div>
@@ -522,15 +526,15 @@ string serial = "cat /proc/cpuinfo | grep Serial | awk '{print $3}'".Bash().Spli
             <div class="row">
                 <div id="divDigitalClock" class="cssDigitalClock">
 
-                   
+
                 </div>
             </div>
 
             <div class="row justify-content-center h-75">
 
 
-                    <a class="twitter-timeline" id="twitter" data-lang="en" data-height="auto" data-theme="dark" data-link-color="#19CF86" href="" data-chrome="noheader, nofooter, noborders, noscrollbar,transparent">Tweets by AylesburyMasjid</a>
-                    
+                <a class="twitter-timeline" id="twitter" data-lang="en" data-height="auto" data-theme="dark" data-link-color="#19CF86" href="" data-chrome="noheader, nofooter, noborders, noscrollbar,transparent">Tweets by AylesburyMasjid</a>
+
                 @*<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>*@
 
 
@@ -563,8 +567,9 @@ string serial = "cat /proc/cpuinfo | grep Serial | awk '{print $3}'".Bash().Spli
             $("#width").val() = $(window).width();
             $("#height").val() = $(window).height();
 
-
-
+            
+            
+                  
         }
 
 
@@ -575,10 +580,12 @@ string serial = "cat /proc/cpuinfo | grep Serial | awk '{print $3}'".Bash().Spli
         });
 
 
-    })
 
-        
-       
+    }
+    );
+
+
+
 </script>
 
 

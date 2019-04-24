@@ -262,6 +262,7 @@ function SetDashboardState(micstatus, establishname, audiourl, videourl,viewmode
     //need to check if tahajjudzan has begun
     //check if audio is live
     //check if video is live
+    //access what mode to put screen in (hadith/camera/floating)
 
     
     viewMode = $("#hidViewMode").text();
@@ -288,7 +289,16 @@ function SetDashboardState(micstatus, establishname, audiourl, videourl,viewmode
 
     CheckAudio(audiourl);
     CheckVideo(videourl);
+
     
+    jsHadithShow();  //temp stamp to get carsouel working
+    
+    GetImages();
+
+    
+    
+
+
 
 
     console.log("autoscreen value=" + autoScreen)
@@ -310,7 +320,7 @@ function SetDashboardState(micstatus, establishname, audiourl, videourl,viewmode
     else if (viewmode == "1" && micstatus == "True") {
 
 
-        $("#hidCurrLiveScreenLabel").val(cameraDesc);
+        $("#lblCameraViewDesc").val(cameraDesc);
 
 
         jsCameraShow();
@@ -333,20 +343,20 @@ function SetDashboardState(micstatus, establishname, audiourl, videourl,viewmode
     }
     else if (viewmode == "1" && micstatus == "False") {
 
-        $("#hidCurrLiveScreenLabel").val("Hadith Time");
+        $("#lblCameraViewDesc").val("Hadith Time");
         jsHadithShow();
         playAudio(audiourl);  //make sure video is stopped
 
     }
 
 
-    if (cameraDesc == "Floating Camera") {
+    //if (cameraDesc == "Floating Camera") {
 
-        console.log("Camera is " + cameraDesc);
-        $("#hidCurrLiveScreenLabel").val(cameraDesc);
-        jsCameraShow();
-        playVideo(videoCDN);
-    }
+    //    console.log("Camera is " + cameraDesc);
+    //    $("#lblCameraViewDesc").val(cameraDesc);
+    //    jsCameraShow();
+    //    playVideo(videoCDN);
+    //}
 
     var userTahajjudValue = $("#hidTahajjudAzan").text();
 
@@ -496,7 +506,7 @@ function stopVideo() {
 
     var omxStop = 'http://localhost:9192/stopall';
     $.ajax({
-        url: omxStop,
+        url: omxStop
 
     });
 
@@ -541,13 +551,13 @@ function eventstartimage() {
     // var viewmode = $("#hidViewMode").val();
 
 
-    var audioStream = "<%=ViewState["streamUrl"] %>";
+    //var audioStream = "<%=ViewState["streamUrl"] %>";
     //take image from database
     var image = 'http://updates.airmyprayer.co.uk/airmasjid/screenmessages/startevent.jpg';
     var timeout = "10";
     // var viewmode = viewmode;
 
-    var script = "http://localhost:5000/playstream.sh?" + image + "?" + timeout + "?" + audioStream
+    var script = "http://localhost:5000/playstream.sh?" + image + "?" + timeout; /*+ "?" + audioStream*/
     // alert(audioStream);
 
     $.ajax({
@@ -568,7 +578,28 @@ function eventstartimage() {
 
 }
 
+function GetImages() {
 
+    //need to bring back only 1 image
+
+    $.ajax({
+        url: "http://updates.airmyprayer.co.uk/airmasjid/images/ayl-3/",
+        success: function (data) {
+            $(data).find("td > a").each(function () {
+
+                alert($(this).attr("href"));
+                
+                // will loop through 
+               // alert("Found a file: " + $(this).attr("href"));
+
+                jsCaraHadiths('http://updates.airmyprayer.co.uk/airmasjid/images/ayl-3/'+$(this).attr("href"));
+
+               // return false;
+            });
+        }
+    });
+
+}
 
 
 function flipTV() {
@@ -578,6 +609,39 @@ function flipTV() {
     $.ajax({
         url: fliptv
     });
+
+
+}
+
+
+function jsCaraHadiths(imgfileName) {
+
+    alert(imgfileName);
+
+    
+
+    // TRANSITION_DURATION in bootstrap file is set to 2000000 (high value) for this to work
+    
+    $('<div class="carousel-item"><img class="d-block img-fluid" src="' + imgfileName + '" ><div class="carousel-caption"></div>   </div>').appendTo('.carousel-inner');
+    $('<li data-target="#caraHadiths" data-slide-to="' + imgfileName + '"></li>').appendTo('.carousel-indicators')
+
+    //}
+
+    $('.carousel-item').first().addClass('active');
+
+    $('.carousel-indicators > li').first().addClass('active');
+
+    // currentSlide = Math.floor((Math.random() * $('.item').length));
+
+    //  $('#caraHadiths').find('.item').first().addClass('active');
+
+    //rand = currentSlide;
+    $('#caraHadiths').carousel({
+        // interval: 1000 * 120 //30 second rotate (let postback handle )
+    });
+
+    //  );
+    //   $('#caraHadiths').fadeIn(1000);
 
 
 }
