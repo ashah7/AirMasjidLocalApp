@@ -43,8 +43,15 @@ $(document).ready(function () {
     );
     
                 
-        setTimeout(GetUserPreferences(), 20000);
-         
+    GetUserPreferences();
+
+    setInterval(function () {
+        GetUserPreferences();
+        //alert("called");
+    }, 20 * 1000); // 60 * 1000 milsec
+
+
+   
     
 }
 );
@@ -86,35 +93,10 @@ $(function () {
 
 
 
-function htmlImages() {
-
-    //alert(imgfileName);
-
-    // alert("called");
-
-
-    //   var i=0;
-    for (var i = 0; i < imgfileName.length; i++) {
-        $("#slider").append('<img src="/Images/hadiths/' + imgfileName[i] + '"' + ' id="' + imgfileName[i] + '"' + '/>');
-
-        //document.write('<img src="/Images/hadiths/' + imgfileName[i] + '"' + ' id="' + imgfileName[i] + '" ' + 'class="PrayerInterface"' + '/>')
-
-        // document.write(
-
-
-        //   for (var i = 0; i < imgfileName.length; i++) {
-        ///       imgfileName[i] = '/Images/hadiths/' + imgfileName[i];
-
-        //    }
-
-
-    }
-}
-
 
 function GetUserPreferences() {
 
-    
+   
 
     $.ajax({
         type: "POST",
@@ -134,17 +116,12 @@ function GetUserPreferences() {
            // alert(data);
 
             var obj = JSON.parse(data);
-            alert(obj);
-            alert(obj.viewmode);
-            alert(obj.audiourl);
-            alert(obj.micstatus);
           
+        //    alert(obj.tweetid);
 
           
 
-            document.querySelector("#twitter").setAttribute("href", obj.tweetid);
-
-            $.getScript("//platform.twitter.com/widgets.js");
+            
 
 
             SetMic(obj.micstatus, obj.establishname);
@@ -152,7 +129,13 @@ function GetUserPreferences() {
             SetUserOptions(obj.autoscreen, obj.tahajjud, obj.events, obj.establishid, obj.viewmode, obj.establishname);
 
             SetDashboardState(obj.micstatus, obj.establishname, obj.audiourl, obj.videourl,obj.viewmode,obj.autoscreen);
-            
+
+
+            document.querySelector("#twitter").setAttribute("href", obj.tweetid);
+
+            $.getScript("//platform.twitter.com/widgets.js");
+
+
         },
         failure: function (response) {
 
@@ -290,6 +273,7 @@ function SetDashboardState(micstatus, establishname, audiourl, videourl,viewmode
     CheckAudio(audiourl);
     CheckVideo(videourl);
 
+ 
     
     jsHadithShow();  //temp stamp to get carsouel working
     
@@ -429,7 +413,7 @@ function CheckAudio(audiourl) {
 
 function CheckVideo(videourl) {
 
-    alert("called");
+  
 
 
     $.ajax({
@@ -582,20 +566,28 @@ function GetImages() {
 
     //need to bring back only 1 image
 
+   
+    var allFiles = []; //set up empty array
+
     $.ajax({
         url: "http://updates.airmyprayer.co.uk/airmasjid/images/ayl-3/",
         success: function (data) {
             $(data).find("td > a").each(function () {
 
-                alert($(this).attr("href"));
-                
+             //   alert($(this).attr("href"));
+
+                allFiles.push($(this).attr("href"));
                 // will loop through 
                // alert("Found a file: " + $(this).attr("href"));
 
-                jsCaraHadiths('http://updates.airmyprayer.co.uk/airmasjid/images/ayl-3/'+$(this).attr("href"));
-
+             
                // return false;
             });
+
+            i = Math.floor(Math.random() * allFiles.length);
+
+            jsCaraHadiths('http://updates.airmyprayer.co.uk/airmasjid/images/ayl-3/' + allFiles[i]);
+
         }
     });
 
@@ -616,14 +608,14 @@ function flipTV() {
 
 function jsCaraHadiths(imgfileName) {
 
-    alert(imgfileName);
+       //cleear images before displaying next one
 
-    
+    $('.carousel-inner,.carousel-indicators,.carousel-control-prev,.carousel-control-next').empty();
 
     // TRANSITION_DURATION in bootstrap file is set to 2000000 (high value) for this to work
     
     $('<div class="carousel-item"><img class="d-block img-fluid" src="' + imgfileName + '" ><div class="carousel-caption"></div>   </div>').appendTo('.carousel-inner');
-    $('<li data-target="#caraHadiths" data-slide-to="' + imgfileName + '"></li>').appendTo('.carousel-indicators')
+    $('<li data-target="#caraHadiths" data-slide-to="' + imgfileName + '"></li>').appendTo('.carousel-indicators');
 
     //}
 
@@ -637,7 +629,7 @@ function jsCaraHadiths(imgfileName) {
 
     //rand = currentSlide;
     $('#caraHadiths').carousel({
-        // interval: 1000 * 120 //30 second rotate (let postback handle )
+         //interval: 1000 * 20 //30 second rotate (let postback handle )
     });
 
     //  );
