@@ -52,6 +52,7 @@ namespace AirMasjidLocalApp.Pages
             var audiourl = "";
             var videocdn = "";
             var videourl = "";
+            var cameradesc = "";
             int? micstatus = null;
 
 
@@ -98,10 +99,11 @@ namespace AirMasjidLocalApp.Pages
                             audiourl = myReader.GetString(7);
                             videocdn = myReader.GetString(8);
                             videourl = myReader.GetString(9);
-                            micstatus = myReader.GetInt16(10);
+                            cameradesc = myReader.GetString(10);
+                            micstatus = myReader.GetInt16(11);
 
                             //  establishid = myReader.GetString(2);
-
+                          //  tblCameraLookup.Description,
 
                         }
 
@@ -121,6 +123,7 @@ namespace AirMasjidLocalApp.Pages
                             ",\"audiourl\":" + "\"" + audiourl + "\"" +
                             ",\"videocdn\":" + "\"" + videocdn + "\"" +
                             ",\"videourl\":" + "\"" + videourl + "\"" +
+                            ",\"cameradesc\":" + "\"" + cameradesc + "\"" +
                             ",\"micstatus\":" + micstatus +
                             "}", "application/json");
 

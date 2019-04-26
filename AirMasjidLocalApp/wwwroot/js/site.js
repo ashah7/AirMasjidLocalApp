@@ -21,6 +21,7 @@ $(document).ready(function () {
     );
 
   
+   
 
     $(window).fontResizer({
         elements: [
@@ -33,6 +34,16 @@ $(document).ready(function () {
             { elem: $("#spanRadioInfo"), size: 20 },
             { elem: $("#spanChannels"), size: 20 },
             { elem: $("#divRadioinfo"), size: 20 },
+            { elem: $("#divAirMasjidOptions"), size: 25 },
+            { elem: $("#divAirMasjidStreamDetails"), size: 25 },
+            { elem: $("#divCameraStateInfo"), size: 35 }
+
+
+            
+
+            
+
+            
 
             
         ]
@@ -128,7 +139,7 @@ function GetUserPreferences() {
 
             SetUserOptions(obj.autoscreen, obj.tahajjud, obj.events, obj.establishid, obj.viewmode, obj.establishname);
 
-            SetDashboardState(obj.micstatus, obj.establishname, obj.audiourl, obj.videourl,obj.viewmode,obj.autoscreen);
+            SetDashboardState(obj.micstatus, obj.establishname, obj.audiourl, obj.videourl,obj.viewmode,obj.autoscreen,obj.cameradesc,obj.videocdn);
 
 
             document.querySelector("#twitter").setAttribute("href", obj.tweetid);
@@ -238,7 +249,7 @@ function SetUserOptions(autoscreen, tahajjud, events, establishid, viewmode, est
 }
 
 
-function SetDashboardState(micstatus, establishname, audiourl, videourl,viewmode,autoscreen) {
+function SetDashboardState(micstatus, establishname, audiourl, videourl,viewmode,autoscreen,cameradesc,videocdn) {
 
 
 
@@ -264,28 +275,22 @@ function SetDashboardState(micstatus, establishname, audiourl, videourl,viewmode
     //var userCount = estbroadcastfields[7];  //estasblishment count
 
     //var isTahajjud = estbroadcastfields[8];  //estasblishment count
-
-
-
+    
    // console.log("isTahajjud: " + estbroadcastfields[8]);
 
 
     CheckAudio(audiourl);
     CheckVideo(videourl);
 
- 
     
-    jsHadithShow();  //temp stamp to get carsouel working
+    jsHadithShow(cameradesc);  //temp stamp to get carsouel working
     
     GetImages();
 
+   
+
     
-    
-
-
-
-
-    console.log("autoscreen value=" + autoScreen)
+    console.log("autoscreen value=" + autoscreen)
     if (autoscreen == "1" && micstatus == "1") {
 
         console.log("flip sequence started");
@@ -301,33 +306,40 @@ function SetDashboardState(micstatus, establishname, audiourl, videourl,viewmode
 
     }
 
-    else if (viewmode == "1" && micstatus == "True") {
+    else if (viewmode == "1" && micstatus == "1") {
 
-
-        $("#lblCameraViewDesc").val(cameraDesc);
-
-
-        jsCameraShow();
+     
+        $("#lblCameraViewDesc").text(cameradesc);
+        
+        $("#divHadiths").hide();
+        $("#divEvents").hide();
+        $("#divCamera").show();
 
         //play video here - videostream will be null if videomode=0
         //if video is null then play audio
-        if (videoCDN === "") {
+
+        //check for labels on screen if audio/video are online?
+       // if (videocdn === "") {
+
+
+
+
+        if ($("#lblvideostatus").text() === "Video Offline") {
+
             console.log("video stream is offline attempting audio only");
 
             //sometimes the next stream starts too quickly resulting in a non-playing loop
-
-
             playAudio(audiourl);
         }
         else {
 
-            playVideo(videoCDN);
+            playVideo(videocdn);
         }
 
     }
-    else if (viewmode == "1" && micstatus == "False") {
+    else if (viewmode == "1" && micstatus == "0") {
 
-        $("#lblCameraViewDesc").val("Hadith Time");
+        $("#lblCameraViewDesc").text("Hadith Time");
         jsHadithShow();
         playAudio(audiourl);  //make sure video is stopped
 
@@ -357,11 +369,7 @@ function SetDashboardState(micstatus, establishname, audiourl, videourl,viewmode
 
     }
 
-
-
-
-
-
+    
     //CheckVideo(videourl);
 
 
@@ -455,7 +463,7 @@ function CheckVideo(videourl) {
 }
 
 
-function jsHadithShow() {
+function jsHadithShow(cameradesc) {
 
 
     // stopAllOmxplayer();
@@ -477,7 +485,53 @@ function jsHadithShow() {
     $("#iframeCamera").attr('src', "");
 
     //$("#lblCameraViewDesc").text("Hadith Time");
-    $("#lblCameraViewDesc").text($("#hidCurrLiveScreenLabel").val());
+    $("#lblCameraViewDesc").text(cameradesc);
+
+
+
+}
+
+
+function playAudio(audiostream) {
+
+    // alert("playing audio");
+
+    //if audiostream is null return
+    if (audiostream === "") {
+        console.log("audio stream is offline");
+
+        return;
+    }
+
+    //add sequence here to return if video is playing otherwise loop will occur....
+    //   if (omxCheck()) { console.log("video is playing exiting playAudio sequence...");  return; };
+
+
+
+    if (isPlaying(masjidstream)) {
+
+        return;
+
+    }
+
+    // alert("trying to aplay");
+    var i = Math.floor((Math.random() * 1000000) + 1);
+
+    // var source = $("#hidAudioUrl").val();
+
+
+
+    //   alert(source);
+
+    document.getElementById('masjidstream').src = audiostream + '?nocache=' + i
+    var playme = document.getElementById('masjidstream');
+    playme.src = audiostream + '?nocache=' + i;
+    playme.load();
+    playme.play();
+    //now kill video
+    stopVideo();
+    eventstartimage();
+
 
 
 
@@ -485,6 +539,60 @@ function jsHadithShow() {
 
 
 
+function playVideo(videocdn) {
+
+
+
+    //this will error if now ip defined withing visual studio
+    var omxStatus = 'http://localhost:9192/omxcmd?cmd=position';
+
+
+
+    $.ajax({
+        url: omxStatus,
+
+        success: function (data) {
+            if (data == "no player") {
+                //  alert("starting omx");
+                console.log("client returned status for video: " + data);
+                startOmx(videocdn);
+            }
+
+        },
+        error: function () {
+            console.log("error in playVideo");
+        }
+    });
+
+}
+
+function startOmx(videocdn) {
+
+
+
+    $("#lblStreamStatus").text("Video live now");
+
+    //   alert($("#hidCamUrl").val());
+    //    var camUrl = $("#hidCamUrl").val();
+
+
+
+    var camUrl = videocdn;
+    console.log("no stream detected on client starting video stream now: " + camUrl);
+
+    $.get(
+        camUrl,
+        // { paramOne: 1, paramX: 'abc' },
+        function (data) {
+            eventstartimage();
+            //stop audio after video has started maybe check success feedback of ajax
+            var playme = document.getElementById('masjidstream');
+            playme.pause();
+
+        }
+    );
+
+}
 
 function stopVideo() {
 
@@ -516,7 +624,7 @@ function omxCheck() {
 
         },
         error: function () {
-            console.log("error in playVideo")
+            console.log("error in playVideo");
         }
     });
 
@@ -637,6 +745,57 @@ function jsCaraHadiths(imgfileName) {
 
 
 }
+
+function jsCameraShow() {
+
+
+            //separate sequence for floating camera with a refresh???
+
+    alert("camera show");
+   
+            $("#divHadiths").hide();
+            $("#divEvents").hide();
+
+            $("#iframeEvents").attr('src', "");
+
+
+
+            $("#lblCameraViewDesc").text($("#hidCurrLiveScreenLabel").val());
+
+            //     getOmxplayerStatus();  not needed 
+
+
+            if ($("#divCamera").is(':hidden')) {
+
+
+              //  location.reload();  //removed 28 July 2018
+
+
+
+                //problem cameraCDN does not change here until fullrefresh is done the value is correctly assigned in code behind
+
+                var eventUrl = '<%=ViewState["CameraCDN"] %>';
+
+                var currLiveLabel = $("#hidCurrLiveScreenLabel").val();
+
+                var eventUrl = $("#hidCamUrl").val();
+
+            
+
+              
+
+                $("#lblCameraViewDesc").text(currLiveLabel);
+
+                //$("#iframeCamera").attr('src', eventUrl);
+
+                $("#divCamera").show();
+
+               
+
+                //     getOmxplayerStatus();
+
+            }
+        }
 
 
 
