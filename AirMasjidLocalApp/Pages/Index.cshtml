@@ -17,11 +17,7 @@
 
     //    string serial = "00000000d86d6b5c";
 
-
         
-
-
-
 }
 
 
@@ -38,24 +34,24 @@
 
 
 
-                <asp:HiddenField ID="hidExternalIP" ClientIDMode="Static" Visible="true" runat="server" />
+                @*<asp:HiddenField ID="hidExternalIP" ClientIDMode="Static" Visible="true" runat="server" />*@
 
                 <div id="divRadioinfo">
 
-                    <span id="spanRadioInfo" style="color: white">AirMasjid</span>
+                    <span id="spanRadioInfo" style="color: white">AirMasjid Version 14.0</span>
                     <br />
 
-                    <span id="spaninternalIP" class="h5 cssRadioDetails text-center"></span>
+                    <span id="spaninternalIP" class="cssRadioDetails"></span>
 
-                    <span id="lblWidth" class="h5 cssRadioDetails"></span>
+                    <span id="lblWidth" style="color: white" class=""></span>
 
-                    <span id="lblHeight" class="h5 cssRadioDetails"></span>
+                    <span id="lblHeight" style="color: white" class=""></span>
                     <br />
 
-                    <span id="spanrelease" class="h5 cssRadioDetails">Version 14.0</span>
+                    @*<span id="spanrelease" class="cssRadioDetails">Version 14.0</span>*@
                     <br />
 
-                    <span id="spanwebservername" class="h5 cssRadioDetails"></span>
+                    <span id="spanwebservername" class="cssRadioDetails"></span>
 
 
                 </div>
@@ -498,18 +494,11 @@
 
                 <div class="row">
                     <div id="divCameraStateInfo" class="col-md-12" style="text-align: center">
-
-
-                        <br />
-
-
+                        
                         <asp:Label ID="lblCameraViewDesc" ClientIDMode="Static" style="color: white; text-align: center" runat="server" Text="Label"></asp:Label>
-
                         <br />
                         <span id="streamDescMain" style="color: white; text-align: center"></span>
-                        <br />
-
-
+                       
                     </div>
 
                 </div>
@@ -560,15 +549,11 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        function getscreensize() {
+        //display dimensions onload
+        $("span[id$='lblWidth']").text($(window).width());
+        $("span[id$='lblHeight']").text($(window).height());
 
-            $("#width").val() = $(window).width();
-            $("#height").val() = $(window).height();
-
-            
-            
-                  
-        }
+     
 
 
         window.addEventListener('resize', function (event) {

@@ -63,7 +63,7 @@ namespace AirMasjidLocalApp.Pages
           .SetBasePath(Directory.GetCurrentDirectory())
           .AddJsonFile("appsettings.json")
           .Build();
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetConnectionString("dbAirMasjid");
 
 
             try
@@ -237,6 +237,104 @@ namespace AirMasjidLocalApp.Pages
 
 
         }
+
+
+        public ContentResult OnPostGetPrayerTimesDailyAsync()
+        {
+
+
+            var fajr = "";
+            var sunrise = "";
+            var zawaal = "";
+            var dhuhr = "";
+            var asr = "";
+            var maghrib = "";
+            var isha = "";
+          
+
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json")
+          .Build();
+            var connectionString = configuration.GetConnectionString("dbAirMasjid");
+
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("getprayertimesdaily", conn))
+                    {
+
+                        //  cmd.CommandText = "updateestablishment";
+
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        conn.Open();
+
+                        var serialno = serial;
+                        cmd.Parameters.AddWithValue("@serialno", serial);
+
+
+                        MySql.Data.MySqlClient.MySqlDataReader myReader = default(MySql.Data.MySqlClient.MySqlDataReader);
+
+                        myReader = cmd.ExecuteReader();
+
+                        while (myReader.Read())
+                        {
+
+                            fajr = myReader.GetString(0);
+                            sunrise = myReader.GetString(1);
+                            zawaal = myReader.GetString(2);
+                            dhuhr = myReader.GetString(3);
+                            asr = myReader.GetString(4);
+                            maghrib = myReader.GetString(5);
+                            isha = myReader.GetString(6);
+                          
+
+                            //  establishid = myReader.GetString(2);
+                            //  tblCameraLookup.Description,
+
+                        }
+
+                        // cmd.ExecuteNonQuery();
+                        conn.Close();
+
+                        //  return Content(autoscreen,tahajjud);
+
+                        return Content("{ " +
+                            "\"fajr\":" + "\"" + fajr + "\"" +
+                            ",\"sunrise\":" + "\"" + sunrise + "\"" +
+                            ",\"zawaal\":" + zawaal +
+                            ",\"dhuhr\":" + dhuhr +
+                            ",\"asr\":" + asr +
+                            ",\"maghrib\":" + "\"" + maghrib + "\"" +
+                            ",\"isha\":" + "\"" + isha + "\"" +
+                            "}", "application/json");
+
+                        //  return Content("{ \"name\":\"John\", \"age\":31, \"city\":\"New York\" }", "application/json");
+
+
+
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var Message = $"Failed to get user preferences " + ex.Message;
+                _logger.LogWarning(Message);
+
+                return Content("failed");
+
+            }
+
+
+
+        }
+
+
+
+
 
      
     }

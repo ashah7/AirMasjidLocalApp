@@ -3,11 +3,6 @@
 
 // Write your Javascript code.
 
-
-
-
-
-
 $(document).ready(function () {
     $(function () {
 
@@ -101,10 +96,6 @@ $(function () {
 );
 
 
-
-
-
-
 function GetUserPreferences() {
 
    
@@ -129,10 +120,6 @@ function GetUserPreferences() {
             var obj = JSON.parse(data);
           
         //    alert(obj.tweetid);
-
-          
-
-            
 
 
             SetMic(obj.micstatus, obj.establishname);
@@ -694,12 +681,16 @@ function GetImages() {
 
             i = Math.floor(Math.random() * allFiles.length);
 
-            jsCaraHadiths('http://updates.airmyprayer.co.uk/airmasjid/images/ayl-3/' + allFiles[i]);
+            //decode here removed the %20 from output
+            //remove file extension with .replace(/\.[^/.]+$/, "")
+
+            jsCaraHadiths('http://updates.airmyprayer.co.uk/airmasjid/images/ayl-3/' + allFiles[i], decodeURI(allFiles[i]).replace(/\.[^/.]+$/, ""));
 
         }
     });
 
 }
+
 
 
 function flipTV() {
@@ -714,7 +705,7 @@ function flipTV() {
 }
 
 
-function jsCaraHadiths(imgfileName) {
+function jsCaraHadiths(imgfileName,fileName) {
 
        //cleear images before displaying next one
 
@@ -722,7 +713,11 @@ function jsCaraHadiths(imgfileName) {
 
     // TRANSITION_DURATION in bootstrap file is set to 2000000 (high value) for this to work
     
-    $('<div class="carousel-item"><img class="d-block img-fluid" src="' + imgfileName + '" ><div class="carousel-caption"></div>   </div>').appendTo('.carousel-inner');
+    //$('<div class="carousel-item"><img class="d-block img-fluid" src="' + imgfileName + '" ><div class="carousel-caption"></div>' + imgfileName + '</div>').appendTo('.carousel-inner');
+
+    $('<div class="carousel-item"><img class="d-block img-fluid" src="' + imgfileName + '" ><div class="carousel-caption d-none d-md-block h4">'+ fileName + '</div></div>').appendTo('.carousel-inner');
+
+
     $('<li data-target="#caraHadiths" data-slide-to="' + imgfileName + '"></li>').appendTo('.carousel-indicators');
 
     //}
@@ -742,6 +737,11 @@ function jsCaraHadiths(imgfileName) {
 
     //  );
     //   $('#caraHadiths').fadeIn(1000);
+
+
+
+    
+
 
 
 }

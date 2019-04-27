@@ -15,7 +15,8 @@ width:100%;
 }*/
 
 html, body {
-    font-family: PapyrusRegular;
+    /*font-family: PapyrusRegular;*/
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
     height: 100%;
     margin: 0;
     padding: 2px;
@@ -34,6 +35,7 @@ html, body {
     /*margin: 0 auto;*/
     /*width: 100%;
   height:100%;*/
+   
     font-family: 'Lucida Sans';
     overflow-y: hidden;
     overflow-x: hidden
@@ -50,7 +52,13 @@ html, body {
 }​*/
 
 
-
+/*below set captions for the images - font type and positoning on the top*/ 
+.carousel-caption {
+    top: 0;
+    bottom: auto;
+    text-shadow: -1.5px 0 gold, 0 0.5px gold, 0.5px 0 gold, 0 -0.5px gold
+    
+}
 
 
 /*no padding content table*/
@@ -69,18 +77,17 @@ tr td {
 
 
 
-/*.carousel-inner img { max-height : 100% !important;margin:auto }*/
 
-/*.carousel-inner .item img { height : 320px !important; margin : auto; }*/
 
-.carousel-inner img {
-    /*height: 280px*/;
-    /*max-height: 350px;*/
-    /*width: auto;
-   max-height: 35rem;*/
+/*.carousel-inner img { max-height : 100% !important;margin:auto }
+
+.carousel-inner .item img { height : 320px !important; margin : auto; }*/
+
+/*.carousel-inner img {
+   
     width: 100%;
     height: 100%
-}
+}*/
 
 
 
@@ -403,7 +410,7 @@ width:100%*/
 
 
 
-.overlay {
+/*.overlay {
     position: fixed;
     z-index: 98;
     top: 0px;
@@ -431,7 +438,7 @@ width:100%*/
     .overlayContent img {
         width: 80px;
         height: 80px;
-    }
+    }*/
 
 
 
