@@ -48,7 +48,8 @@ $(document).ready(function () {
     }
     );
     
-                
+
+    GetPrayerTimesDaily();
     GetUserPreferences();
 
     setInterval(function () {
@@ -795,7 +796,56 @@ function jsCameraShow() {
                 //     getOmxplayerStatus();
 
             }
+}
+
+
+
+
+
+
+function GetPrayerTimesDaily() {
+
+
+
+    $.ajax({
+        type: "POST",
+        url: "/Index?handler=getprayertimesdaily",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        //data: '{ViewMode:"' + ViewMode + '", serial: "' + serial + '" }',
+       
+        data: JSON.stringify({
+            "date": "27",
+            "month": "april"
+        }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+
+            
+         
+            var obj = JSON.parse(data);
+
+            alert(obj.fajr);
+
+
+
+        },
+        failure: function (response) {
+
+            alertfailed("failed to get daily prayer times");
+
+
+
         }
+    }
+    );
+
+
+}
+
 
 
 

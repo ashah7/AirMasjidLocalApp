@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AirMasjidLocalApp.Pages
 {
@@ -243,6 +244,34 @@ namespace AirMasjidLocalApp.Pages
         {
 
 
+            var month = "";
+            var date = "";
+
+
+            {
+                MemoryStream stream = new MemoryStream();
+                Request.Body.CopyTo(stream);
+                stream.Position = 0;
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string requestBody = reader.ReadToEnd();
+                    if (requestBody.Length > 0)
+                    {
+                      
+                        var obj = JObject.Parse(requestBody);
+                        
+                        if (obj != null)
+                        {
+                            date = obj["date"].ToString();
+                            month = obj["month"].ToString();
+                            
+                        }
+                    }
+                }
+            }
+
+
+
             var fajr = "";
             var sunrise = "";
             var zawaal = "";
@@ -250,13 +279,16 @@ namespace AirMasjidLocalApp.Pages
             var asr = "";
             var maghrib = "";
             var isha = "";
+
+
+
           
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
           .SetBasePath(Directory.GetCurrentDirectory())
           .AddJsonFile("appsettings.json")
           .Build();
-            var connectionString = configuration.GetConnectionString("dbAirMasjid");
+            var connectionString = configuration.GetConnectionString("dbPrayerTimes-3");
 
 
             try
@@ -271,8 +303,9 @@ namespace AirMasjidLocalApp.Pages
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         conn.Open();
 
-                        var serialno = serial;
-                        cmd.Parameters.AddWithValue("@serialno", serial);
+                       
+                        cmd.Parameters.AddWithValue("@currmonth", month);
+                        cmd.Parameters.AddWithValue("@currdate", date);
 
 
                         MySql.Data.MySqlClient.MySqlDataReader myReader = default(MySql.Data.MySqlClient.MySqlDataReader);
