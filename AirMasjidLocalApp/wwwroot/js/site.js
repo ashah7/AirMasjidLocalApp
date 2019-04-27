@@ -805,6 +805,7 @@ function jsCameraShow() {
 
 function GetPrayerTimesDaily() {
 
+    //get month and date and use as data
 
 
     $.ajax({

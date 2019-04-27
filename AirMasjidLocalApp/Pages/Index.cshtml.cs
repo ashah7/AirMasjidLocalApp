@@ -337,9 +337,9 @@ namespace AirMasjidLocalApp.Pages
                         return Content("{ " +
                             "\"fajr\":" + "\"" + fajr + "\"" +
                             ",\"sunrise\":" + "\"" + sunrise + "\"" +
-                            ",\"zawaal\":" + zawaal +
-                            ",\"dhuhr\":" + dhuhr +
-                            ",\"asr\":" + asr +
+                            ",\"zawaal\":" + "\""+zawaal + "\"" +
+                            ",\"dhuhr\":" + "\"" + dhuhr + "\"" +
+                            ",\"asr\":" + "\"" + asr + "\"" +
                             ",\"maghrib\":" + "\"" + maghrib + "\"" +
                             ",\"isha\":" + "\"" + isha + "\"" +
                             "}", "application/json");
