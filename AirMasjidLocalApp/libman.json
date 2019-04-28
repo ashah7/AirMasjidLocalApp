@@ -11,5 +11,11 @@
       "library": "jquery-confirm@3.3.4",
       "destination": "wwwroot/jquery-confirm/"
     }
-  ]
+  ,
+{
+  "provider": "cdnjs",
+  "library": "moment.js@2.24.0",
+  "destination": "wwwroot/moment.js/"
+}
+]
 }

@@ -244,8 +244,8 @@ namespace AirMasjidLocalApp.Pages
         {
 
 
-            var month = "";
-            var date = "";
+            var month = "";   //April (convert to lowercase
+            var date = "";    //22 
 
 
             {
@@ -263,7 +263,7 @@ namespace AirMasjidLocalApp.Pages
                         if (obj != null)
                         {
                             date = obj["date"].ToString();
-                            month = obj["month"].ToString();
+                            month = obj["month"].ToString().ToLower();
                             
                         }
                     }

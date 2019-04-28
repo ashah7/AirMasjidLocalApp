@@ -47,9 +47,33 @@ $(document).ready(function () {
         , sizeUnit: "px"
     }
     );
-    
 
-    GetPrayerTimesDaily();
+
+
+
+
+    var now = new moment();
+    var month = now.format("MMMM");  //April (need this in lower case )
+    var date = now.format('DD');   // 22
+
+    //get todays prayer times
+    GetPrayerTimesDaily(date, month,"today");
+
+
+    let dttomorrow = moment(now.add(1, 'days'));
+   
+
+    var tmonth = dttomorrow.format("MMMM");
+    var tdate = dttomorrow.format('DD');
+
+    //get tomorrows prayer times
+    GetPrayerTimesDaily(tdate, tmonth,"tomorrow");
+
+
+   // GetPrayerTimesDaily(date, month);
+
+
+
     GetUserPreferences();
 
     setInterval(function () {
@@ -803,9 +827,11 @@ function jsCameraShow() {
 
 
 
-function GetPrayerTimesDaily() {
+function GetPrayerTimesDaily(date,month,day) {
 
     //get month and date and use as data
+
+    alert(date);
 
 
     $.ajax({
@@ -818,21 +844,39 @@ function GetPrayerTimesDaily() {
         //data: '{ViewMode:"' + ViewMode + '", serial: "' + serial + '" }',
        
         data: JSON.stringify({
-            "date": "27",
-            "month": "april"
+            "date": date,
+            "month":month
         }),
         contentType: "application/json; charset=utf-8",
         dataType: "html",
         success: function (data) {
 
-            
          
             var obj = JSON.parse(data);
+            
+            //set todays prayer times
+            if (day === "today") {
+                $("#lblbegFajrTime").text(obj.fajr);
+                $("#lblbegSunRiseTime").text(obj.sunrise);
+                $("#lblbegDhuhrTime").text(obj.dhuhr);
+                $("#lblbegAsrTime").text(obj.asr);
+                $("#lblbegMaghribTime").text(obj.maghrib);
+                $("#lblbegIshaTime").text(obj.isha);
+            }
 
-            alert(obj.fajr);
+            if (day === "tomorrow") {
+                $("#lbltmrwFajrTime").text(obj.fajr);
+                $("#lbltmrwSunriseTime").text(obj.sunrise);
+                $("#lbltmrwDhuhrTime").text(obj.dhuhr);
+                $("#lbltmrwAsrTime").text(obj.asr);
+                $("#lbltmrwMaghribTime").text(obj.maghrib);
+                $("#lbltmrwIshaTime").text(obj.isha);
+            }
 
 
+            //set tomorrows prayer times if date is tomorrow
 
+            
         },
         failure: function (response) {
 
