@@ -40,7 +40,7 @@ namespace AirMasjidLocalApp
                  logging.AddDebug();
                  logging.AddEventSourceLogger();
              })
-                .UseUrls("http://0.0.0.0")
+                .UseUrls("http://0.0.0.0:7100")
 
 
                 .Build();

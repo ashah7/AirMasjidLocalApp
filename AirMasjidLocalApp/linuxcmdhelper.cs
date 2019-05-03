@@ -19,7 +19,7 @@ namespace AirMasjidLocalApp
                 StartInfo = new ProcessStartInfo
                 {
                    // FileName = "/bin/bash",
-                         FileName = "C:\\MediaToolkit\\ffmpeg.exe",
+                  FileName = "C:\\MediaToolkit\\ffmpeg.exe",
                     Arguments = $"-c \"{escapedArgs}\"",
                     RedirectStandardOutput = true,
                     UseShellExecute = false,

@@ -29,7 +29,7 @@ namespace AirMasjidLocalApp.Pages
 
         }
 
-        // string serial = "cat /proc/cpuinfo | grep Serial | awk '{print $3}'".Bash().Split(';').First();
+//         string serial = "cat /proc/cpuinfo | grep Serial | awk '{print $3}'".Bash().Split(';').First();
 
         string serial = "00000000d86d6b5c";
 
@@ -354,7 +354,94 @@ namespace AirMasjidLocalApp.Pages
             }
             catch (Exception ex)
             {
-                var Message = $"Failed to get user preferences " + ex.Message;
+                var Message = $"Failed to get daily prayer times " + ex.Message;
+                _logger.LogWarning(Message);
+
+                return Content("failed");
+
+            }
+
+
+
+        }
+
+
+
+
+        public ContentResult OnPostGetPrayerTimesJamaatAsync()
+        {
+
+            var fajr = "";
+            var dhuhr = "";
+            var asr = "";
+            var maghrib = "";
+            var isha = "";
+            var jummah1 = "";
+            var jummah2 = "";
+
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json")
+          .Build();
+            var connectionString = configuration.GetConnectionString("dbPrayerTimes-3");
+
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("getjamaattimes", conn))
+                    {
+
+                        //  cmd.CommandText = "updateestablishment";
+
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        conn.Open();
+
+
+                        MySql.Data.MySqlClient.MySqlDataReader myReader = default(MySql.Data.MySqlClient.MySqlDataReader);
+
+                        myReader = cmd.ExecuteReader();
+
+                        while (myReader.Read())
+                        {
+
+                            fajr = myReader.GetString(0);                         
+                            dhuhr = myReader.GetString(1);
+                            asr = myReader.GetString(2);
+                            maghrib = myReader.GetString(3);
+                            isha = myReader.GetString(4);
+                            jummah1 = myReader.GetString(5);
+                            jummah2 = myReader.GetString(6);
+                            
+                        }
+
+                        // cmd.ExecuteNonQuery();
+                        conn.Close();
+
+                        //  return Content(autoscreen,tahajjud);
+
+                        return Content("{ " +
+                            "\"fajr\":" + "\"" + fajr + "\"" +
+                            ",\"dhuhr\":" + "\"" + dhuhr + "\"" +
+                            ",\"asr\":" + "\"" + asr + "\"" +
+                            ",\"maghrib\":" + "\"" + maghrib + "\"" +
+                            ",\"isha\":" + "\"" + isha + "\"" +
+                              ",\"jummah1\":" + "\"" + jummah1 + "\"" +
+                                ",\"jummah2\":" + "\"" + jummah2 + "\"" +
+                            "}", "application/json");
+
+                        //  return Content("{ \"name\":\"John\", \"age\":31, \"city\":\"New York\" }", "application/json");
+
+
+
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var Message = $"Failed to get user jamaat times " + ex.Message;
                 _logger.LogWarning(Message);
 
                 return Content("failed");
@@ -369,7 +456,7 @@ namespace AirMasjidLocalApp.Pages
 
 
 
-     
+
     }
 
 

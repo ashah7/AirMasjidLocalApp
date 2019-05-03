@@ -33,13 +33,6 @@ $(document).ready(function () {
             { elem: $("#divAirMasjidStreamDetails"), size: 25 },
             { elem: $("#divCameraStateInfo"), size: 35 }
 
-
-            
-
-            
-
-            
-
             
         ]
         , baseWidth: 1980
@@ -61,19 +54,16 @@ $(document).ready(function () {
 
 
     let dttomorrow = moment(now.add(1, 'days'));
-   
-
     var tmonth = dttomorrow.format("MMMM");
     var tdate = dttomorrow.format('DD');
 
     //get tomorrows prayer times
-    GetPrayerTimesDaily(tdate, tmonth,"tomorrow");
+    GetPrayerTimesDaily(tdate, tmonth, "tomorrow");
 
 
-   // GetPrayerTimesDaily(date, month);
+    GetPrayerTimesJamaat();
 
-
-
+    
     GetUserPreferences();
 
     setInterval(function () {
@@ -137,14 +127,9 @@ function GetUserPreferences() {
         contentType: "application/json; charset=utf-8",
         dataType: "html",
         success: function (data) {
-
-          
-
-           // alert(data);
+            
 
             var obj = JSON.parse(data);
-          
-        //    alert(obj.tweetid);
 
 
             SetMic(obj.micstatus, obj.establishname);
@@ -153,10 +138,13 @@ function GetUserPreferences() {
 
             SetDashboardState(obj.micstatus, obj.establishname, obj.audiourl, obj.videourl,obj.viewmode,obj.autoscreen,obj.cameradesc,obj.videocdn);
 
+            if ($('#twitter').length > 0) {
+                document.querySelector("#twitter").setAttribute("href", obj.tweetid);
 
-            document.querySelector("#twitter").setAttribute("href", obj.tweetid);
+                $.getScript("//platform.twitter.com/widgets.js");
+            }
 
-            $.getScript("//platform.twitter.com/widgets.js");
+          
 
 
         },
@@ -302,7 +290,7 @@ function SetDashboardState(micstatus, establishname, audiourl, videourl,viewmode
    
 
     
-    console.log("autoscreen value=" + autoscreen)
+    console.log("autoscreen value=" + autoscreen);
     if (autoscreen == "1" && micstatus == "1") {
 
         console.log("flip sequence started");
@@ -506,12 +494,12 @@ function jsHadithShow(cameradesc) {
 
 function playAudio(audiostream) {
 
-    // alert("playing audio");
 
-    //if audiostream is null return
-    if (audiostream === "") {
+    //check audiostream here 
+
+
+    if ($("#lblaudiostatus").text() === "Audio Offline") {
         console.log("audio stream is offline");
-
         return;
     }
 
@@ -564,7 +552,7 @@ function playVideo(videocdn) {
         url: omxStatus,
 
         success: function (data) {
-            if (data == "no player") {
+            if (data === "no player") {
                 //  alert("starting omx");
                 console.log("client returned status for video: " + data);
                 startOmx(videocdn);
@@ -587,7 +575,7 @@ function startOmx(videocdn) {
     //   alert($("#hidCamUrl").val());
     //    var camUrl = $("#hidCamUrl").val();
 
-
+    
 
     var camUrl = videocdn;
     console.log("no stream detected on client starting video stream now: " + camUrl);
@@ -616,31 +604,31 @@ function stopVideo() {
 
 }
 
-function omxCheck() {
+//function omxCheck() {
 
 
 
-    //this will error if now ip defined withing visual studio
-    var omxStatus = 'http://localhost:9192/omxcmd?cmd=position';
+//    //this will error if now ip defined withing visual studio
+//    var omxStatus = 'http://localhost:9192/omxcmd?cmd=position';
 
-    $.ajax({
-        url: omxStatus,
+//    $.ajax({
+//        url: omxStatus,
 
-        success: function (data) {
-            if (data == "no player") {
-                //  alert("starting omx");
-                console.log("client returned status for video: " + data)
-                return true;
+//        success: function (data) {
+//            if (data == "no player") {
+//                //  alert("starting omx");
+//                console.log("client returned status for video: " + data);
+//                return true;
 
-            }
+//            }
 
-        },
-        error: function () {
-            console.log("error in playVideo");
-        }
-    });
+//        },
+//        error: function () {
+//            console.log("error in playVideo");
+//        }
+//    });
 
-}
+//}
 
 
 function isPlaying(audelem) {
@@ -831,8 +819,7 @@ function GetPrayerTimesDaily(date,month,day) {
 
     //get month and date and use as data
 
-    alert(date);
-
+   
 
     $.ajax({
         type: "POST",
@@ -881,12 +868,62 @@ function GetPrayerTimesDaily(date,month,day) {
         failure: function (response) {
 
             alertfailed("failed to get daily prayer times");
+            
+        }
+    }
+    );
 
 
+}
+
+
+
+function GetPrayerTimesJamaat() {
+
+
+
+    $.ajax({
+        type: "POST",
+        url: "/Index?handler=getprayertimesjamaat",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        //data: '{ViewMode:"' + ViewMode + '", serial: "' + serial + '" }',
+
+      
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+
+
+            var obj = JSON.parse(data);
+
+            //set todays prayer times
+            
+            $("#lblFajrJamaat").text(obj.fajr);
+            $("#lblDhuhrJamaat").text(obj.dhuhr);
+            $("#lblAsrJamaat").text(obj.asr);
+            $("#lblMaghribJamaat").text(obj.maghrib);
+            $("#lblIshaJamaat").text(obj.isha);
+            $("#lblJummah1Jamaat").text(obj.jummah1);
+            $("#lblJummah2Jamaat").text(obj.jummah2);
+          
+
+
+            //set tomorrows prayer times if date is tomorrow
+
+
+        },
+        failure: function (response) {
+
+            alertfailed("failed to get jamaat times");
 
         }
     }
     );
+
+
 
 
 }

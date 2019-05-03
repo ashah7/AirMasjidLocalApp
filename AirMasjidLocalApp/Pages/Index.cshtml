@@ -24,7 +24,7 @@
 
 <div class="container-fluid">
 
-    <div class="row">
+    <div class="row justify-content-center">
 
         <div class="col-md-3">
 
@@ -36,16 +36,16 @@
 
                 @*<asp:HiddenField ID="hidExternalIP" ClientIDMode="Static" Visible="true" runat="server" />*@
 
-                <div id="divRadioinfo">
+                <div id="divRadioinfo" class="text-center">
 
                     <span id="spanRadioInfo" style="color: white">AirMasjid Version 14.0</span>
                     <br />
 
                     <span id="spaninternalIP" class="cssRadioDetails"></span>
 
-                    <span id="lblWidth" style="color: white" class=""></span>
+                    <span id="lblWidth" style="color: white"></span>
 
-                    <span id="lblHeight" style="color: white" class=""></span>
+                    <span id="lblHeight" style="color: white"></span>
                     <br />
 
                     @*<span id="spanrelease" class="cssRadioDetails">Version 14.0</span>*@
@@ -60,10 +60,10 @@
             @*</div>*@
 
 
-            <div class="row p-2">
+            <div class="row justify-content-center">
                 <br />
 
-                <table id="tblPrayerTimes" class="table-condensed table-borderless">
+                <table id="tblPrayerTimes" class="table table-borderless">
                     <tr>
                         <th colspan="3">
 
@@ -308,6 +308,17 @@
 
                     </tr>
 
+                    <tr>
+                        
+                            <td colspan="4">
+
+                            <input id="btnRadioStatus" type="button" class="btn cssRadioStatus" value="button" />
+                        </td>
+
+                        
+
+                    </tr>
+
 
                 </table>
 
@@ -315,67 +326,67 @@
                     Text="Button" />*@
 
 
-                <input id="btnRadioStatus" type="button" class="cssRadioStatus" value="button" />
+              
 
             </div>
 
 
 
 
-            <div class="row justify-content-center align-items-center p-2">
+            <div class="row justify-content-center align-items-center">
+                
+                    <div id="divAirMasjidOptions" style="width:100%">
 
-                <div id="divAirMasjidOptions">
-                    <table class="table table-bordered">
+                        <table class="table">
+                            <tr>
+                                <th colspan="3" style="text-align: center">
 
-                        <tr>
-                            <th colspan="3" style="text-align: center">
-
-                                @*<asp:Label ID="idlblOptions" runat="server" CssClass="h5 cssOptionsHeader" Text="Select AirMasjid Options"></asp:Label>*@
-
-
-                                <span id="lblOptions" class="cssOptionsHeader">Select AirMasjid Options</span>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                @*<asp:Label ID="lblchkAutoScreenStatus" runat="server" CssClass="h5 csschkboxesoptions" Text="Enable Auto Screen"></asp:Label>*@
-
-                                <span id="lblchkAutoScreenStatus" class="csschkboxesoptions">Enable Auto Screen</span>
+                                    @*<asp:Label ID="idlblOptions" runat="server" CssClass="h5 cssOptionsHeader" Text="Select AirMasjid Options"></asp:Label>*@
 
 
-                            </td>
-                            <td style="text-align: center" colspan="2">
+                                    <span id="lblOptions" class="cssOptionsHeader">Selected Options</span>
 
-                                @*<asp:CheckBox ID="chkAutoScreenStatus" ClientIDMode="Static" onclick="updateAutoScreen();" runat="server" TextAlign="Left" />*@
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @*<asp:Label ID="lblchkAutoScreenStatus" runat="server" CssClass="h5 csschkboxesoptions" Text="Enable Auto Screen"></asp:Label>*@
 
-                                <input id="chkAutoScreenStatus" class="text-left" type="checkbox" />
-
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                @*<asp:Label ID="lblViewMode" runat="server" CssClass="h5 csschkboxesoptions" Text="ViewMode"></asp:Label>*@
-
-                                <span id="lblViewMode" class="csschkboxesoptions">ViewMode</span>
-
-                            </td>
-                            <td style="text-align: center" colspan="2">
-
-                                @*<asp:Label ID="lblViewModeText" ClientIDMode="Static" runat="server" CssClass="h5 csschkboxesoptions" Text=""></asp:Label>*@
-
-                                <span id="lblViewModeText" class="csschkboxesoptions"></span>
-
-                            </td>
-                        </tr>
+                                    <span id="lblchkAutoScreenStatus" class="csschkboxesoptions">Enable Auto Screen</span>
 
 
+                                </td>
+                                <td style="text-align: center">
+
+                                    @*<asp:CheckBox ID="chkAutoScreenStatus" ClientIDMode="Static" onclick="updateAutoScreen();" runat="server" TextAlign="Left" />*@
+
+                                    <input id="chkAutoScreenStatus" class="text-left" type="checkbox" />
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    @*<asp:Label ID="lblViewMode" runat="server" CssClass="h5 csschkboxesoptions" Text="ViewMode"></asp:Label>*@
+
+                                    <span id="lblViewMode" class="csschkboxesoptions">ViewMode</span>
+
+                                </td>
+                                <td style="text-align: center">
+
+                                    @*<asp:Label ID="lblViewModeText" ClientIDMode="Static" runat="server" CssClass="h5 csschkboxesoptions" Text=""></asp:Label>*@
+
+                                    <span id="lblViewModeText" class="csschkboxesoptions"></span>
+
+                                </td>
+                            </tr>
 
 
-                    </table>
 
-                </div>
+
+                        </table>
+
+            </div>
 
 
 
@@ -447,11 +458,11 @@
 
         <div class="col-md-6" style="text-align: center">
 
-            <div class="row justify-content-center align-items-center p2">
+            <div class="row justify-content-center">
                 <span id="spanBasmala" class="divBasmala">&amp;#32</span>
             </div>
 
-            <div class="row justify-content-center align-items-center">
+            <div class="row justify-content-center pl-3">  @*//left padding needed here*@
 
 
                 <div id="divEvents" class="embed-responsive embed-responsive embed-responsive-16by9">

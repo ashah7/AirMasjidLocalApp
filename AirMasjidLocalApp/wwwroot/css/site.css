@@ -18,8 +18,8 @@ html, body {
     /*font-family: PapyrusRegular;*/
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
     height: 100%;
-    margin: 0;
-    padding: 2px;
+    /*margin: 0;*/
+   padding: 2px;
     overflow-y: hidden;
     overflow-x: hidden
 }
@@ -38,7 +38,9 @@ html, body {
    
     font-family: 'Lucida Sans';
     overflow-y: hidden;
-    overflow-x: hidden
+    overflow-x: hidden;
+
+        
 }
 
 /*#content, .container-fluid, .span9
@@ -101,9 +103,9 @@ tr td {
 }​*/
 
 
-.table-condensed > thead > tr > th, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > tbody > tr > td, .table-condensed > tfoot > tr > td {
+/*.table-condensed > thead > tr > th, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > tbody > tr > td, .table-condensed > tfoot > tr > td {
     padding: 1px !important
-}
+}*/
 
 
 
@@ -305,11 +307,11 @@ height: 100%
 
 
 
-.cssPrayerTable {
+/*.cssPrayerTable {
     width: 90%;
     margin-left: 3%;
     margin-right: 5%
-}
+}*/
 
 
 .cellImages {
